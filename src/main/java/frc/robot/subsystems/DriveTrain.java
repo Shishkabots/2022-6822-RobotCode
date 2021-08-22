@@ -4,16 +4,27 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PWMSparkMax;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.PWMSpeedController;
+import edu.wpi.first.wpilibj.PWMTalonFX;
+
 
 public class DriveTrain extends SubsystemBase {
 
-  private final PWMSparkMax m_leftMotor = new PWMSparkMax(Constants.DRIVETRAIN_LEFT_MOTOR);
-  private final PWMSparkMax m_rightMotor  = new PWMSparkMax(Constants.DRIVETRAIN_RIGHT_MOTOR);
-  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
+  private final PWMTalonFX m_leftFrontMotor;
+  private final PWMTalonFX m_leftBackMotor;
+
+  private final PWMTalonFX m_rightFrontMotor;
+  private final PWMTalonFX m_rightBackMotor;
+
+  private SpeedControllerGroup m_leftSide;
+  private final SpeedControllerGroup m_rightSide;
+
+  private final DifferentialDrive m_robotDrive;
 
   /**
    * @brief Arcade drive for differential drive platform.
@@ -25,7 +36,20 @@ public class DriveTrain extends SubsystemBase {
   }
 
   /** Creates a new DriveTrain. */
-  public DriveTrain() { }
+  public DriveTrain() {
+
+    m_leftFrontMotor = new PWMTalonFX(Constants.DRIVETRAIN_LEFT_FRONT_MOTOR);
+    m_leftBackMotor = new PWMTalonFX(Constants.DRIVETRAIN_LEFT_BACK_MOTOR);
+  
+    m_rightFrontMotor  = new PWMTalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
+    m_rightBackMotor  = new PWMTalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
+
+    m_leftSide = new SpeedControllerGroup(m_leftFrontMotor, m_leftBackMotor);
+    m_rightSide = new SpeedControllerGroup(m_rightFrontMotor, m_rightBackMotor);
+
+    m_robotDrive = new DifferentialDrive(m_leftSide, m_rightSide); 
+    
+  }
 
   @Override
   public void periodic() {
@@ -36,6 +60,5 @@ public class DriveTrain extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-
 
 }

@@ -14,8 +14,14 @@ package frc.robot;
  */
 public final class Constants {
 
-    public final static int DRIVETRAIN_LEFT_MOTOR = 0;
-    public final static int DRIVETRAIN_RIGHT_MOTOR = 1;
+    public final static int DRIVETRAIN_RIGHT_FRONT_MOTOR = 0;
+
+    public final static int DRIVETRAIN_RIGHT_BACK_MOTOR = 1;
+
+    public final static int DRIVETRAIN_LEFT_FRONT_MOTOR = 2;
+
+    public final static int DRIVETRAIN_LEFT_BACK_MOTOR = 3;
+    
     
     public final static int DRIVER_STICK_PORT = 0;
     

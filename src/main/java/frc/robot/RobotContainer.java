@@ -26,12 +26,15 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // assign default commands
-    m_drivetrain.setDefaultCommand(
-      new ArcadeDrive(
-          () -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
+    
+    
+    m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
 
+      
     // Configure the button bindings
     configureButtonBindings();
+
+
 
   }
 
@@ -51,5 +54,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
+  }
+
+  public Command getTeleopCommand(){
+    return new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain);
   }
 }
