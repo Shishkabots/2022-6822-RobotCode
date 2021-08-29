@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -28,7 +29,8 @@ public class RobotContainer {
     // assign default commands
     
     
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
+    // m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
+    m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getRawAxis(1)), () -> m_driverStick.getRawAxis(5), m_drivetrain));
 
       
     // Configure the button bindings
@@ -57,6 +59,8 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand(){
-    return new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain);
+    // return new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain);
+    return new TankDrive(() -> (-m_driverStick.getRawAxis(1)), () -> m_driverStick.getRawAxis(5), m_drivetrain);
+
   }
 }
