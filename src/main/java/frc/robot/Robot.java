@@ -14,6 +14,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
+ * 
+ * Test comment to test gitignore, can remove.
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
