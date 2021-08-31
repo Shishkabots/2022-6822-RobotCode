@@ -21,10 +21,10 @@ public class TankDrive extends CommandBase {
    *
    * @param drivetrain The drivetrain used by this command.
    */
-  public TankDrive(DoubleSupplier speed1, DoubleSupplier speed2, DriveTrain drivetrain) {
+  public TankDrive(DoubleSupplier speedleft, DoubleSupplier speedright, DriveTrain drivetrain) {
     m_drivetrain = drivetrain;
-    m_speedleft = speed1;
-    m_speedright = speed2;
+    m_speedleft = speedleft;
+    m_speedright = speedright;
     addRequirements(m_drivetrain);
 
   }
