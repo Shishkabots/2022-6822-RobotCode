@@ -11,20 +11,20 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ArcadeDrive extends CommandBase {
+public class TankDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
-  private final DoubleSupplier m_speed;
-  private final DoubleSupplier m_rotation;
+  private final DoubleSupplier m_speedleft;
+  private final DoubleSupplier m_speedright;
 
   /**
    * Creates a new ArcadeDrive command.
    *
    * @param drivetrain The drivetrain used by this command.
    */
-  public ArcadeDrive(DoubleSupplier speed, DoubleSupplier rotation, DriveTrain drivetrain) {
+  public TankDrive(DoubleSupplier speedleft, DoubleSupplier speedright, DriveTrain drivetrain) {
     m_drivetrain = drivetrain;
-    m_speed = speed;
-    m_rotation = rotation;
+    m_speedleft = speedleft;
+    m_speedright = speedright;
     addRequirements(m_drivetrain);
 
   }
@@ -37,7 +37,7 @@ public class ArcadeDrive extends CommandBase {
 
   @Override
   public void execute() {
-    m_drivetrain.arcadedrive(m_speed.getAsDouble(), m_rotation.getAsDouble());
+    m_drivetrain.tankdrive(m_speedleft.getAsDouble(), m_speedright.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

@@ -24,5 +24,9 @@ public final class Constants {
     
     
     public final static int DRIVER_STICK_PORT = 0;
+
+    public final static int TANKDRIVE_LEFT = 1;
+
+    public final static int TANKDRIVE_RIGHT = 5;
     
 }

@@ -32,8 +32,11 @@ public class DriveTrain extends SubsystemBase {
    * @param zRotation the robot's rotation rate around z-axis
    * test
    */
-  public void drive(double xSpeed, double zRotation){
+  public void arcadedrive(double xSpeed, double zRotation){
     m_robotDrive.arcadeDrive(xSpeed, zRotation);
+  }
+  public void tankdrive(double leftSpeed, double rightSpeed) {
+    m_robotDrive.tankDrive(leftSpeed, rightSpeed * -1);
   }
 
   /** Creates a new DriveTrain. */
