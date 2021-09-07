@@ -9,6 +9,7 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 
 /**
@@ -24,6 +25,7 @@ public class RobotContainer {
   private Command m_autoCommand;
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
+  JoystickButton m_buttonA = new JoystickButton(m_driverStick, Constants.BUTTON_A);
  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -47,8 +49,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() { }
-
+  private void configureButtonBindings() {
+    m_buttonA.toggleWhenPressed(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
+        
+   }
+    
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

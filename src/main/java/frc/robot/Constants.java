@@ -28,5 +28,38 @@ public final class Constants {
     public final static int TANKDRIVE_LEFT = 1;
 
     public final static int TANKDRIVE_RIGHT = 5;
+
+    // Joystick Ids
+    
+    public final static int JOYSTICK_LEFT_Y = 1;
+
+    public final static int JOYSTICK_RIGHT_Y = 5;
+
+    public final static int JOYSTICK_LEFT_X = 0;
+
+    public final static int JOYSTICK_RIGHT_X = 4;
+    
+    public final static int BUTTON_A = 1;
+
+    /**
+     * Axis	ID
+Left Stick X	0
+Left Stick Y	1
+Right Stick X	4
+Right Stick Y	5
+Left Trigger	2
+Right Trigger	3
+Button	ID
+Button A	1
+Button B	2
+Button X	3
+Button Y	4
+Left Bumper	5
+Right Bumper	6
+Back	7
+Start	8
+Left Stick	9
+Right Stick	10
+     */
     
 }
