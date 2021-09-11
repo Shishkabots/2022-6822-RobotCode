@@ -39,9 +39,9 @@ public final class Constants {
 
     public final static int JOYSTICK_RIGHT_X = 4;
     
-    public final static int BUTTON_A = 1;
+    public final static int JOYSTICK_BUTTON_A = 1;
 
-    /**
+    /** 
      * Axis	ID
 Left Stick X	0
 Left Stick Y	1

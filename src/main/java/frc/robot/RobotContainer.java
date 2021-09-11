@@ -25,7 +25,7 @@ public class RobotContainer {
   private Command m_autoCommand;
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
-  JoystickButton m_buttonA = new JoystickButton(m_driverStick, Constants.BUTTON_A);
+  JoystickButton m_joystickbuttonA = new JoystickButton(m_driverStick, Constants.JOYSTICK_BUTTON_A);
  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -50,7 +50,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_buttonA.toggleWhenPressed(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
+    m_joystickbuttonA.toggleWhenPressed(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
         
    }
     
