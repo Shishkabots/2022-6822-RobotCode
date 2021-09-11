@@ -15,11 +15,18 @@ import edu.wpi.first.wpilibj.PWMTalonFX;
 
 public class DriveTrain extends SubsystemBase {
 
-  private final PWMTalonFX m_leftFrontMotor;
-  private final PWMTalonFX m_leftBackMotor;
+  private final WPI_TalonFX m_leftFrontMotor;
+  private final WPI_TalonFX m_leftBackMotor;
 
-  private final PWMTalonFX m_rightFrontMotor;
-  private final PWMTalonFX m_rightBackMotor;
+  private final WPI_TalonFX m_rightFrontMotor;
+  private final WPI_TalonFX m_rightBackMotor;
+
+  /**
+   *     drive1 = new WPI_TalonFX(1); //done
+    slave1 = new WPI_TalonFX(2); //done
+    drive2 = new WPI_TalonFX(3); // done
+    slave2 = new WPI_TalonFX(4); //done
+   */
 
   private SpeedControllerGroup m_leftSide;
   private final SpeedControllerGroup m_rightSide;
@@ -41,17 +48,23 @@ public class DriveTrain extends SubsystemBase {
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
-
+    
+    m_leftFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_LEFT_FRONT_MOTOR);
+    m_leftBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_LEFT_BACK_MOTOR);
+    m_rightFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
+    m_rightBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
+    /**
     m_leftFrontMotor = new PWMTalonFX(Constants.DRIVETRAIN_LEFT_FRONT_MOTOR);
     m_leftBackMotor = new PWMTalonFX(Constants.DRIVETRAIN_LEFT_BACK_MOTOR);
   
     m_rightFrontMotor  = new PWMTalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
     m_rightBackMotor  = new PWMTalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
-
+    */
     m_leftSide = new SpeedControllerGroup(m_leftFrontMotor, m_leftBackMotor);
     m_rightSide = new SpeedControllerGroup(m_rightFrontMotor, m_rightBackMotor);
 
     m_robotDrive = new DifferentialDrive(m_leftSide, m_rightSide); 
+    
     
   }
 

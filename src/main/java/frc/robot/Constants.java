@@ -41,6 +41,8 @@ public final class Constants {
     
     public final static int JOYSTICK_BUTTON_A = 1;
 
+    public final static int JOYSTICK_RIGHTTRIGGER = 2;      
+
     /** 
      * Axis	ID
 Left Stick X	0
