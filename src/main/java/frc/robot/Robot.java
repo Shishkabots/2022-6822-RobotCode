@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -19,8 +21,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private String m_driveMode;
   private RobotContainer m_robotContainer;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -30,6 +33,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_chooser.setDefaultOption("Arcade Drive", "Arcade Drive");
+    m_chooser.addOption("Tank Drive", "Tank Drive");
+    SmartDashboard.putData("choices", m_chooser);
   }
 
   /**
@@ -69,7 +75,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {}
-
+u
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -79,6 +85,15 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_driveMode = m_chooser.getSelected();
+    System.out.println("Drive Mode: " + m_driveMode);
+    if (m_driveMode == "Tank Drive") {
+      m_robotContainer.SwitchHelper("TankDrive");
+    
+    }else {
+      m_robotContainer.SwitchHelper("ArcadeDrive");
+    }
+    // System.out.println("D")
   }
 
   /** This function is called periodically during operator control. */
