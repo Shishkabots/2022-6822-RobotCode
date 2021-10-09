@@ -53,6 +53,12 @@ public class DriveTrain extends SubsystemBase {
     m_leftBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_LEFT_BACK_MOTOR);
     m_rightFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
     m_rightBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
+    
+    m_leftFrontMotor.configFactoryDefault();
+    m_rightFrontMotor.configFactoryDefault();
+    m_leftBackMotor.configFactoryDefault();
+    m_rightBackMotor.configFactoryDefault();
+
     /**
     m_leftFrontMotor = new PWMTalonFX(Constants.DRIVETRAIN_LEFT_FRONT_MOTOR);
     m_leftBackMotor = new PWMTalonFX(Constants.DRIVETRAIN_LEFT_BACK_MOTOR);
@@ -70,6 +76,8 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    double selSenPos = m_leftFrontMotor.getSelectedSensorPosition(0);
+
     // This method will be called once per scheduler run
   }
 
