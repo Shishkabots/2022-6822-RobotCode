@@ -26,7 +26,17 @@ public class RobotContainer {
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
   JoystickButton m_joystickbuttonA = new JoystickButton(m_driverStick, Constants.JOYSTICK_BUTTON_A);
- 
+  public void SwitchHelper(String drivetype) {
+    if (drivetype == "TankDrive") {
+      m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
+    }else {
+
+      m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
+      
+    }
+  
+    }
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // assign default commands
@@ -67,7 +77,7 @@ public class RobotContainer {
   public Command getTeleopCommand(){
     return new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain);
     // return new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain);
-
+  
 
   }
 }
