@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -77,6 +78,7 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     double selSenPos = m_leftFrontMotor.getSelectedSensorPosition(0);
+    SmartDashboard.putNumber("Encoder position: ", selSenPos);
 
     // This method will be called once per scheduler run
   }

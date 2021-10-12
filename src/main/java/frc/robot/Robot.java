@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.DriveTrain;
+import frc.robot.subsystems.DriveTrain;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Arcade Drive", "Arcade Drive");
     m_chooser.addOption("Tank Drive", "Tank Drive");
     SmartDashboard.putData("choices", m_chooser);
-    SmartDashboard.putNumber("Encoder position: ", DriveTrain.selSenPos);
+
   }
 
   /**
