@@ -28,10 +28,10 @@ public class RobotContainer {
   JoystickButton m_joystickbuttonA = new JoystickButton(m_driverStick, Constants.JOYSTICK_BUTTON_A);
   public void SwitchHelper(String drivetype) {
     if (drivetype == "TankDrive") {
-      m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
+      m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
     }else {
+      m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
 
-      m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
       
     }
   
