@@ -27,7 +27,7 @@ public final class Constants {
 
     public final static int TANKDRIVE_LEFT = 1;
 
-    public final static int TANKDRIVE_RIGHT = 5;
+    public final static int TANKDRIVE_RIGHT = 3;
 
     // Joystick Ids
     
