@@ -15,53 +15,22 @@ package frc.robot;
 public final class Constants {
 
     public final static int DRIVETRAIN_RIGHT_FRONT_MOTOR = 1;
-
     public final static int DRIVETRAIN_RIGHT_BACK_MOTOR = 2;
-
     public final static int DRIVETRAIN_LEFT_FRONT_MOTOR = 3;
-
     public final static int DRIVETRAIN_LEFT_BACK_MOTOR = 4;
-    
     
     public final static int DRIVER_STICK_PORT = 0;
 
-    public final static int TANKDRIVE_LEFT = 1;
-
-    public final static int TANKDRIVE_RIGHT = 3;
-
     // Joystick Ids
-    
-    public final static int JOYSTICK_LEFT_Y = 1;
-
-    public final static int JOYSTICK_RIGHT_Y = 5;
-
     public final static int JOYSTICK_LEFT_X = 0;
+    public final static int JOYSTICK_LEFT_Y = 1;
+    public final static int JOYSTICK_RIGHT_X = 2;
+    public final static int JOYSTICK_RIGHT_Y = 3;
 
-    public final static int JOYSTICK_RIGHT_X = 4;
-    
-    public final static int JOYSTICK_BUTTON_A = 1;
+    public final static int JOYSTICK_RIGHTTRIGGER = 8;      
 
-    public final static int JOYSTICK_RIGHTTRIGGER = 2;      
-
-    /** 
-     * Axis	ID
-Left Stick X	0
-Left Stick Y	1
-Right Stick X	4
-Right Stick Y	5
-Left Trigger	2
-Right Trigger	3
-Button	ID
-Button A	1
-Button B	2
-Button X	3
-Button Y	4
-Left Bumper	5
-Right Bumper	6
-Back	7
-Start	8
-Left Stick	9
-Right Stick	10
-     */
+    // Speed sensitivity
+    public final static double JOYSTICK_FULLSPEED = 1.0;
+    public final static double JOYSTICK_THROTTLESPEED = 0.5;
     
 }
