@@ -15,6 +15,8 @@ public class ArcadeDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
   private final DoubleSupplier m_speed;
   private final DoubleSupplier m_rotation;
+  private double max_x, min_x;
+  private double max_z, min_z;
 
   /**
    * Creates a new ArcadeDrive command.
@@ -39,13 +41,21 @@ public class ArcadeDrive extends CommandBase {
 
   @Override
   public void execute() {
-    m_drivetrain.arcadedrive(m_speed.getAsDouble(), m_rotation.getAsDouble());
+    double xSpeed = m_speed.getAsDouble();
+    double zRotation = m_rotation.getAsDouble();
+    updateMaxMin(xSpeed, zRotation);
+
+    m_drivetrain.arcadedrive(xSpeed, zRotation);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Arcadedrive ended, interreupted = " + interrupted);
+    System.out.println("Arcadedrive ended, " + "interreupted = " + interrupted);
+
+    //Print max & min speeds and rotation for debugging purposes
+    System.out.println("Max-x = " + max_x + " Min-x = " + min_x);
+    System.out.println("Max-x = " + max_z + " Min-x = " + min_z);
   }
 
   // Returns true when the command should end.
@@ -53,5 +63,17 @@ public class ArcadeDrive extends CommandBase {
   public boolean isFinished() {
     return false; // Runs until interrupted
   
-  }  
+
+  }
+
+  public void updateMaxMin(double xSpeed, double zRotation) {
+    if (xSpeed > max_x) { max_x = xSpeed; }
+    if (xSpeed < min_x) { min_x = xSpeed; }
+    if (zRotation > max_z) { max_z = zRotation; }
+    if (zRotation < min_z) { min_z = zRotation; }
+  }
+
+
+  
+
 }
