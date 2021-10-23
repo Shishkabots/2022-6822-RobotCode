@@ -21,10 +21,10 @@ public class ArcadeDrive extends CommandBase {
    *
    * @param drivetrain The drivetrain used by this command.
    */
-  public ArcadeDrive(DoubleSupplier speed, DoubleSupplier rotation, DriveTrain drivetrain) {
+  public ArcadeDrive(DoubleSupplier speed, DoubleSupplier rotation, DriveTrain drivetrain, double sensitivity) {
     m_drivetrain = drivetrain;
-    m_speed = speed;
-    m_rotation = rotation;
+    m_speed = () -> speed.getAsDouble() * sensitivity;
+    m_rotation = () -> rotation.getAsDouble() * sensitivity;
     addRequirements(m_drivetrain);
 
   }
@@ -45,7 +45,7 @@ public class ArcadeDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Arcadedrive ended, " + "interreupted = " + interrupted);
+    System.out.println("Arcadedrive ended, interreupted = " + interrupted);
   }
 
   // Returns true when the command should end.
@@ -53,8 +53,5 @@ public class ArcadeDrive extends CommandBase {
   public boolean isFinished() {
     return false; // Runs until interrupted
   
-  }
-
-
-  
+  }  
 }
