@@ -7,51 +7,51 @@ package frc.robot.commands;
 import frc.robot.subsystems.DriveTrain;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ArcadeDrive extends CommandBase {
+public class CurvatureDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
   private final DoubleSupplier m_speed;
   private final DoubleSupplier m_rotation;
-
-  /**
-   * Creates a new ArcadeDrive command.
-   *
-   * @param  drivetrain The drivetrain used by this command.
-   */
-  public ArcadeDrive(DoubleSupplier speed, DoubleSupplier rotation, DriveTrain drivetrain, double sensitivity) {
-    m_drivetrain = drivetrain;
-    m_speed = () -> speed.getAsDouble() * sensitivity;
-    m_rotation = () -> rotation.getAsDouble() * sensitivity;
-    addRequirements(m_drivetrain);
-
+  private final BooleanSupplier m_isQuickTurn;
+      /**
+        * Creates a new CurvatureDrive command.
+        *
+        * @param drivetrain The drivetrain used by this command.
+        */
+    public CurvatureDrive(DoubleSupplier speed, DoubleSupplier rotation, BooleanSupplier isQuickTurn, DriveTrain drivetrain) {
+        m_drivetrain = drivetrain;
+        m_speed = speed;
+        m_rotation = rotation;
+        m_isQuickTurn = isQuickTurn;
+        addRequirements(m_drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    System.out.println("ArcadeDrive initialized");
-   }
+  public void initialize() { }
 
   // Called every time the scheduler runs while the command is scheduled.
 
   @Override
   public void execute() {
-    m_drivetrain.arcadedrive(m_speed.getAsDouble(), m_rotation.getAsDouble());
+    m_drivetrain.curvaturedrive(m_speed.getAsDouble(), m_rotation.getAsDouble(), m_isQuickTurn.getAsBoolean());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    System.out.println("Arcadedrive ended, interreupted = " + interrupted);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false; // Runs until interrupted
   
-  }  
+  }
+
+
+  
 }
