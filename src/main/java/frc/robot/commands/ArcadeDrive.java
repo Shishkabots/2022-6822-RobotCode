@@ -56,12 +56,28 @@ public class ArcadeDrive extends CommandBase {
   
   }
   public void smoothStop(int speedLoc){
-    if(speedLoc = 0){
+    if(speedLoc == 0){
       end(true);
     } else {
       speedLoc /= 2;
       m_drivetrain.arcadedrive(speedLoc, m_rotation);
       smoothStop(speedLoc);
+    }
+  }
+  public void smoothStart(int currSpeed, int goal){
+    if(currSpeed == 0){
+      currSpeed++;
+      m_drivetrain.arcadedrive(currSpeed, m_rotation);
+      smoothStart(currSpeed, goal);
+    } else if(currSpeed == goal){
+      break;
+    } else {
+      currSpeed *= 2;
+      if(currSpeed > goal){
+        currSpeed = goal;
+      }
+      m_drivetrain.arcadedrive(currSpeed, m_rotation);
+      smoothStart(currSpeed, goal);
     }
   }
 }
