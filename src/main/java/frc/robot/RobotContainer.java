@@ -21,52 +21,36 @@ import frc.robot.Constants;
 public class RobotContainer {
   // The robot's commands, subsystems, and IO devices are defined here...
 
-  private enum DriveType {
-    ARCADE_DRIVE,
-    TANK_DRIVE
-  }
 
   private Command m_autoCommand;
-  private Command m_teleopCommand;
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
-  private DriveType m_driveType = DriveType.ARCADE_DRIVE;
-  
+  JoystickButton m_joystickbuttonA = new JoystickButton(m_driverStick, Constants.JOYSTICK_BUTTON_A);
   public void SwitchHelper(String drivetype) {
     if (drivetype == "TankDrive") {
-      m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain));
-    } 
-    else {
-      m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED));
-    }
-  }
+      m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
+    }else {
+      m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
 
+      
+    }
+  
+    }
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
     // assign default commands
-    switch(m_driveType) {
-      case TANK_DRIVE:
-        m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain));
-        break;
-      case ARCADE_DRIVE:
-      m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED));
-        break;
-      default:
-        m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED));
-    }
+    
+    
+    m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain));
+    // m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
+
       
     // Configure the button bindings
     configureButtonBindings();
-  }
 
-  public void setDriveType(String driveType) {
-    if(driveType == "Tank Drive") {
-      m_driveType = DriveType.TANK_DRIVE;
-    }
-    else {
-      m_driveType = DriveType.ARCADE_DRIVE;
-    }
+
+
   }
 
   /**
@@ -76,7 +60,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTTRIGGER).whenHeld(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_FULLSPEED));
+    m_joystickbuttonA.toggleWhenPressed(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain));
+        
    }
     
   /**
@@ -90,6 +75,9 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand(){
-    return m_teleopCommand;
+    return new ArcadeDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_drivetrain);
+    // return new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.TANKDRIVE_LEFT)), () -> m_driverStick.getRawAxis(Constants.TANKDRIVE_RIGHT), m_drivetrain);
+  
+
   }
 }

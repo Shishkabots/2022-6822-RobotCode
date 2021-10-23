@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
@@ -85,7 +87,13 @@ public class Robot extends TimedRobot {
     }
     m_driveMode = m_chooser.getSelected();
     System.out.println("Drive Mode: " + m_driveMode);
-    m_robotContainer.setDriveType(m_driveMode);
+    if (m_driveMode == "Tank Drive") {
+      m_robotContainer.SwitchHelper("TankDrive");
+    
+    }else {
+      m_robotContainer.SwitchHelper("ArcadeDrive");
+    }
+    // System.out.println("D")
   }
 
   /** This function is called periodically during operator control. */
