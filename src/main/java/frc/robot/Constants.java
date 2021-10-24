@@ -28,7 +28,16 @@ public final class Constants {
     public final static int JOYSTICK_RIGHT_X = 2;
     public final static int JOYSTICK_RIGHT_Y = 3;
     
-    public final static int JOYSTICK_RIGHTTRIGGER = 8;      
+    public final static int JOYSTICK_BUTTON_X = 1;  
+    public final static int JOYSTICK_BUTTON_A = 2;      
+    public final static int JOYSTICK_BUTTON_B = 3;  
+    public final static int JOYSTICK_BUTTON_Y = 4; 
+    public final static int JOYSTICK_LEFTBUMPER = 5;  
+    public final static int JOYSTICK_RIGHTBUMPER = 6;      
+    public final static int JOYSTICK_LEFTTRIGGER = 7;  
+    public final static int JOYSTICK_RIGHTTRIGGER = 8; 
+    public final static int JOYSTICK_BUTTON_LEFTSTICK = 11;  
+    public final static int JOYSTICK_BUTTON_RIGHTSTICK = 12;      
 
     // Speed sensitivity
     public final static double JOYSTICK_FULLSPEED = 1.0;
