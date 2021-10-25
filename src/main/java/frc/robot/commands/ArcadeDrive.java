@@ -62,11 +62,10 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public boolean isFinished() {
     return false; // Runs until interrupted
-  
-
   }
 
-  public void updateMaxMin(double xSpeed, double zRotation) {
+  
+  void updateMaxMin(double xSpeed, double zRotation) {
     if (xSpeed > max_x) { max_x = xSpeed; }
     if (xSpeed < min_x) { min_x = xSpeed; }
     if (zRotation > max_z) { max_z = zRotation; }
