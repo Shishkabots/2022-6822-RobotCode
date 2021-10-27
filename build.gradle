@@ -53,6 +53,7 @@ dependencies {
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:3.12.4'
 
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
@@ -79,5 +80,6 @@ jar {
 }
 
 test {
+    //from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     useJUnit()
 }
