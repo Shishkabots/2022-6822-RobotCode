@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+  package frc.robot.commands;
 
 import frc.robot.subsystems.DriveTrain;
 
@@ -64,15 +64,33 @@ public class ArcadeDrive extends CommandBase {
     return false; // Runs until interrupted
   }
 
-  
-  void updateMaxMin(double xSpeed, double zRotation) {
+  // Used to either update the max speed or the min speed
+  // If the first parameter is outside the current [min_x, max_x],
+  // range, new range is updated to [min_x, xSpeed] or [xSpeed, max_x]
+  // Similarly for zRotation
+  public void updateMaxMin(double xSpeed, double zRotation) {
     if (xSpeed > max_x) { max_x = xSpeed; }
     if (xSpeed < min_x) { min_x = xSpeed; }
     if (zRotation > max_z) { max_z = zRotation; }
     if (zRotation < min_z) { min_z = zRotation; }
   }
 
+  // Accessor methods
+  public double getMaxX() {
+    return max_x;
+  }
 
-  
+  public double getMinX() {
+    return min_x;
+  }
+
+  public double getMaxZ() {
+    return max_z;
+  }
+
+  public double getMinZ() {
+    return min_z;
+  }
+
 
 }
