@@ -85,7 +85,6 @@ public class Robot extends TimedRobot {
     }
     m_driveMode = m_chooser.getSelected();
     System.out.println("Drive Mode: " + m_driveMode);
-    m_robotContainer.setDriveType(m_driveMode);
   }
 
   /** This function is called periodically during operator control. */
