@@ -10,11 +10,15 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Constants;
+
 /** An example command that uses an example subsystem. */
 public class ArcadeDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
   private final DoubleSupplier m_speed;
   private final DoubleSupplier m_rotation;
+  private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
 
   /**
    * Creates a new ArcadeDrive command.
@@ -40,7 +44,9 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     m_drivetrain.arcadedrive(m_speed.getAsDouble(), m_rotation.getAsDouble());
-    smoothStop(m_speed.getAsDouble());
+    if(-m_driverStick.getY() == 0){
+      smoothStop(m_speed.getAsDouble());
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -55,12 +61,14 @@ public class ArcadeDrive extends CommandBase {
     return false; // Runs until interrupted
   
   }
-  public void smoothStop(double speed){
-    if(speed == 0){
-      end(true);
+  public void smoothStop(double speedLoc){
+    double curSpeed = speedLoc;
+    if(curSpeed == 0){
+      return;
+      //end(true);
     } else {
-      speed /= 2;
-      m_drivetrain.arcadedrive(speed, m_rotation.getAsDouble());
+      curSpeed /= 2;
+      m_drivetrain.arcadedrive(curSpeed, m_rotation.getAsDouble());
       smoothStop(speedLoc);
     }
   }
