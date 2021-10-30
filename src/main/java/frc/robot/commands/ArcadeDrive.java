@@ -26,6 +26,7 @@ public class ArcadeDrive extends CommandBase {
     m_speed = () -> speed.getAsDouble() * sensitivity;
     m_rotation = () -> rotation.getAsDouble() * sensitivity;
     addRequirements(m_drivetrain);
+
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +40,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     m_drivetrain.arcadedrive(m_speed.getAsDouble(), m_rotation.getAsDouble());
-    smoothStop(m_speed);
+    smoothStop(m_speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -54,33 +55,13 @@ public class ArcadeDrive extends CommandBase {
     return false; // Runs until interrupted
   
   }
-  public void smoothStop(DoubleSupplier speedLoc){
-    double curSpeed = speedLoc.getAsDouble();
-    if(curSpeed == 0){
+  public void smoothStop(double speed){
+    if(speed == 0){
       end(true);
     } else {
-      curSpeed /= 2;
-      m_drivetrain.arcadedrive(curSpeed, m_rotation.getAsDouble());
+      speed /= 2;
+      m_drivetrain.arcadedrive(speed, m_rotation.getAsDouble());
       smoothStop(speedLoc);
     }
   }
-  /*
-  public void smoothStart(DoubleSupplier currSped, DoubleSupplier Goal){
-    double currSpeed = currSped.getAsDouble();
-    double goal = Goal.getAsDouble();
-    if(currSpeed == 0){
-      currSpeed++;
-      m_drivetrain.arcadedrive(currSpeed, m_rotation);
-      smoothStart(currSpeed, goal);
-    } else if(currSpeed == goal){
-      break;
-    } else {
-      currSpeed *= 2;
-      if(currSpeed > goal){
-        currSpeed = goal;
-      }
-      m_drivetrain.arcadedrive(currSpeed, m_rotation);
-      smoothStart(currSpeed, goal);
-    }
-  }*/
 }
