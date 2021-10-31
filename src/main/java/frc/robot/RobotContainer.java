@@ -75,7 +75,7 @@ public class RobotContainer {
   }
 
   public void setDriveType(String driveType) {
-    if("Tank Drive".equalsIgnoreCase(driveType)) {
+    if("Tank Drive".equalsIgnoreCase(driveType)) {  
       m_driveType = DriveType.TANK_DRIVE;
     }
     else {
