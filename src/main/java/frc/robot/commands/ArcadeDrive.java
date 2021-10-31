@@ -25,7 +25,6 @@ public class ArcadeDrive extends CommandBase {
     m_drivetrain = drivetrain;
     m_speed = () -> speed.getAsDouble() * sensitivity;
     m_rotation = () -> rotation.getAsDouble() * sensitivity;
-    System.out.println("arcade constructor called");
     addRequirements(m_drivetrain);
 
   }
@@ -46,7 +45,7 @@ public class ArcadeDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Arcadedrive ended, interreupted = " + interrupted);
+    System.out.println("Arcadedrive ended, interrupted = " + interrupted);
   }
 
   // Returns true when the command should end.

@@ -10,7 +10,7 @@ import java.util.function.DoubleSupplier;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+//import java.util.Math;
 /** An example command that uses an example subsystem. */
 public class CurvatureDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
@@ -24,10 +24,13 @@ public class CurvatureDrive extends CommandBase {
         */
     public CurvatureDrive(DoubleSupplier speed, DoubleSupplier rotation, BooleanSupplier isQuickTurn, DriveTrain drivetrain) {
         m_drivetrain = drivetrain;
+        //m_speed = Math.sqrt(speed.getAsDouble());
+        //m_rotation = Math.sqrt(rotation.getAsDouble());
+        //m_speed = speed.getAsDouble();
+        //m_rotation = rotation.getAsDouble();
         m_speed = speed;
         m_rotation = rotation;
         m_isQuickTurn = isQuickTurn;
-        System.out.println("curvature constructor called");
         addRequirements(m_drivetrain);
   }
 
@@ -46,7 +49,9 @@ public class CurvatureDrive extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("CurvatureDrive interrupted: " + interrupted);
+  }
 
   // Returns true when the command should end.
   @Override
