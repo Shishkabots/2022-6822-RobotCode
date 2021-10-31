@@ -27,12 +27,15 @@ public class CurvatureDrive extends CommandBase {
         m_speed = speed;
         m_rotation = rotation;
         m_isQuickTurn = isQuickTurn;
+        System.out.println("curvature constructor called");
         addRequirements(m_drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() { }
+  public void initialize() {
+    System.out.println("CurvatureDrive initialized");
+   }
 
   // Called every time the scheduler runs while the command is scheduled.
 

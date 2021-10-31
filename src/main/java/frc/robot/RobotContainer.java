@@ -25,7 +25,8 @@ public class RobotContainer {
 
   private enum DriveType {
     ARCADE_DRIVE,
-    TANK_DRIVE
+    TANK_DRIVE,
+    CURVATURE_DRIVE
   }
 
   private Command m_autoCommand;
@@ -41,13 +42,20 @@ public class RobotContainer {
     // assign default commands
     switch(m_driveType) {
       case ARCADE_DRIVE:
-        m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED));  
+        m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED)); 
+        System.err.println("arcadedrive used");
         break;
       case TANK_DRIVE:
-        m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain));  
+        m_drivetrain.setDefaultCommand(new TankDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain));
+        System.err.println("tankdrive used");  
+        break;
+      case CURVATURE_DRIVE:
+        m_drivetrain.setDefaultCommand(new CurvatureDrive(() -> (-m_driverStick.getY()), () -> m_driverStick.getX(), m_isQuickTurn, m_drivetrain));
+        System.err.println("curvaturedrive used");
         break;
       default:
-        m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED));  
+        m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED));
+        System.err.println("default used");          
     }
     
     // Configure the button bindings

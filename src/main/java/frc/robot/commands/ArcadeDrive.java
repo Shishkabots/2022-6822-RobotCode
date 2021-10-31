@@ -25,6 +25,7 @@ public class ArcadeDrive extends CommandBase {
     m_drivetrain = drivetrain;
     m_speed = () -> speed.getAsDouble() * sensitivity;
     m_rotation = () -> rotation.getAsDouble() * sensitivity;
+    System.out.println("arcade constructor called");
     addRequirements(m_drivetrain);
 
   }
