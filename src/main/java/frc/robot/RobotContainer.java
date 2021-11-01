@@ -21,7 +21,7 @@ import frc.robot.Constants;
 public class RobotContainer {
   // The robot's commands, subsystems, and IO devices are defined here...
 
-  private enum DriveType {
+  public enum DriveType {
     ARCADE_DRIVE,
     TANK_DRIVE
   }
@@ -75,11 +75,18 @@ public class RobotContainer {
   }
 
   public void setDriveType(String driveType) {
-    if(driveType == "Tank Drive") {
+    if("Tank Drive".equalsIgnoreCase(driveType)) {  
       m_driveType = DriveType.TANK_DRIVE;
     }
     else {
       m_driveType = DriveType.ARCADE_DRIVE;
     }
+  }
+
+  /**
+   * Accessor methods 
+   */
+  public DriveType getDriveType() {
+    return m_driveType;
   }
 }
