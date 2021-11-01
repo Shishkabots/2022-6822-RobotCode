@@ -23,9 +23,7 @@ public class RobotContainerTest {
 
     @Test
     public void testInitializeDrive() {
-        System.out.println("Testing initialize drive");
         _robotContainer.setDriveType("Tank Drive");
         Assert.assertEquals(_robotContainer.getDriveType(), RobotContainer.DriveType.TANK_DRIVE);
-        Assert.assertEquals(1, 0, 0.01);
     }
 }
