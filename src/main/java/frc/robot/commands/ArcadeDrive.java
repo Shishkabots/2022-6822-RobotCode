@@ -64,4 +64,7 @@ public class ArcadeDrive extends CommandBase {
       smoothStop(speedLoc);
     }
   }
+  public double getCurrentSpeed(){
+    return m_speed.getAsDouble();
+  }
 }
