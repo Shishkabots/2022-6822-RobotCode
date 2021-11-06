@@ -10,15 +10,11 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Constants;
-
 /** An example command that uses an example subsystem. */
 public class ArcadeDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
   private final DoubleSupplier m_speed;
   private final DoubleSupplier m_rotation;
-  private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
 
   /**
    * Creates a new ArcadeDrive command.
@@ -36,7 +32,7 @@ public class ArcadeDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ArcadeDrive initialized + Checking test");
+    System.out.println("ArcadeDrive initialized");
    }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,10 +40,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     m_drivetrain.arcadedrive(m_speed.getAsDouble(), m_rotation.getAsDouble());
-    if(m_driverStick.getY() < 0.01){
-      System.out.println("smoothStop execute1");
-      smoothStop(m_speed.getAsDouble());
-    }
+    smoothStop(((Double)m_speed).getAsInt());
   }
 
   // Called once the command ends or is interrupted.
@@ -60,17 +53,15 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public boolean isFinished() {
     return false; // Runs until interrupted
+  
   }
-
-  public void smoothStop(double speedLoc){
-    int curSpeed = ((Double) speedLoc).getAsInt();
-    if(curSpeed == 0){
-      return;
+  public void smoothStop(int speedLoc){
+    if(speedLoc = 0){
+      end(true);
     } else {
-      System.out.println("smoothStop starts");
-      curSpeed /= 2;
-      m_drivetrain.arcadedrive(curSpeed, m_rotation.getAsDouble());
-      smoothStop(curSpeed);
+      speedLoc /= 2;
+      m_drivetrain.ArcadeDrive(speedLoc, m_rotation);
+      smoothStop(speedLoc);
     }
   }
 }
