@@ -40,7 +40,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     m_drivetrain.arcadedrive(m_speed.getAsDouble(), m_rotation.getAsDouble());
-    smoothStop(((Double)m_speed).getAsInt());
+    smoothStop(m_speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -55,12 +55,14 @@ public class ArcadeDrive extends CommandBase {
     return false; // Runs until interrupted
   
   }
-  public void smoothStop(int speedLoc){
-    if(speedLoc = 0){
-      end(true);
+  public void smoothStop(double speedLoc){
+    int curSpeed = ((Double)speedLoc).intValue();
+    if(curSpeed == 0){
+      return;
     } else {
-      speedLoc /= 2;
-      m_drivetrain.ArcadeDrive(speedLoc, m_rotation);
+      curSpeed /= 2;
+      speedLoc = curSpeed;
+      m_drivetrain.arcadedrive(speedLoc, m_rotation.getAsDouble());
       smoothStop(speedLoc);
     }
   }

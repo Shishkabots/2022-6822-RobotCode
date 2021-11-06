@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.commands;
 
 import org.junit.Ignore;
 import java.util.function.DoubleSupplier;
@@ -9,23 +9,25 @@ import org.junit.Assert;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.RobotContainer;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ArcadeDriveTest {
-    private final DriveTrain m_drivetrain;
-    private final DoubleSupplier m_speed;
-    private final DoubleSupplier m_rotation;
-    RobotContainer _robotContainer;
+    private DriveTrain m_drivetrain;
+    private DoubleSupplier m_speed;
+    private DoubleSupplier m_rotation;
+    private ArcadeDrive m_arcadeDrive;
+    private RobotContainer _robotContainer;
 
     @Before
     public void setUp() {
-        _speed = mock(DoubleSupplier.class);
-        _rotation = mock(DoubleSupplier.class);
-        _driveTrain = mock(DriveTrain.class);
-        when(_speed.getAsDouble()).thenReturn(2.0d);
-        when(_rotation.getAsDouble()).thenReturn(3.0d);
-        _arcadeDrive = new ArcadeDrive(_speed, _rotation, _driveTrain, 2.0d);
+        m_speed = mock(DoubleSupplier.class);
+        m_rotation = mock(DoubleSupplier.class);
+        m_drivetrain = mock(DriveTrain.class);
+        when(m_speed.getAsDouble()).thenReturn(2.0d);
+        when(m_rotation.getAsDouble()).thenReturn(3.0d);
+        m_arcadeDrive = new ArcadeDrive(m_speed, m_rotation, m_drivetrain, 2.0d);
     }
 
     @Test
@@ -37,7 +39,7 @@ public class ArcadeDriveTest {
     @Test
     public void testArcade() {
         _robotContainer.setDriveType("Arcade Drive");
-        _arcadeDrive.smoothStop(8);
-        Assert.assertEquals(_robotContainer.getCurrentSpeed(), 0.0);
+        m_arcadeDrive.smoothStop(8);
+        Assert.assertEquals(m_arcadeDrive.getCurrentSpeed(), 0.0, 0.0);
     }
 }
