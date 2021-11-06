@@ -28,6 +28,7 @@ public class ArcadeDriveTest {
         when(m_speed.getAsDouble()).thenReturn(2.0d);
         when(m_rotation.getAsDouble()).thenReturn(3.0d);
         m_arcadeDrive = new ArcadeDrive(m_speed, m_rotation, m_drivetrain, 2.0d);
+        _robotContainer = new RobotContainer();
     }
 
     @Test

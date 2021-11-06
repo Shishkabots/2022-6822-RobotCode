@@ -16,6 +16,8 @@ public class ArcadeDrive extends CommandBase {
   private final DoubleSupplier m_speed;
   private final DoubleSupplier m_rotation;
 
+  private double curSpeed;
+
   /**
    * Creates a new ArcadeDrive command.
    *
@@ -25,6 +27,7 @@ public class ArcadeDrive extends CommandBase {
     m_drivetrain = drivetrain;
     m_speed = () -> speed.getAsDouble() * sensitivity;
     m_rotation = () -> rotation.getAsDouble() * sensitivity;
+    curSpeed = m_speed.getAsDouble();
     addRequirements(m_drivetrain);
 
   }
@@ -56,17 +59,21 @@ public class ArcadeDrive extends CommandBase {
   
   }
   public void smoothStop(double speedLoc){
-    int curSpeed = ((Double)speedLoc).intValue();
-    if(curSpeed == 0){
+    curSpeed = speedLoc;
+    if(curSpeed < 1){
+      curSpeed = 0;
+      m_drivetrain.arcadedrive(curSpeed, m_rotation.getAsDouble());
+      System.out.println("speed = 0");
       return;
     } else {
       curSpeed /= 2;
-      speedLoc = curSpeed;
-      m_drivetrain.arcadedrive(speedLoc, m_rotation.getAsDouble());
-      smoothStop(speedLoc);
+      System.out.println("speed = " + curSpeed);
+      m_drivetrain.arcadedrive(curSpeed, m_rotation.getAsDouble());
+      System.out.println("speed updated");
+      smoothStop(curSpeed);
     }
   }
   public double getCurrentSpeed(){
-    return m_speed.getAsDouble();
+    return curSpeed;
   }
 }
