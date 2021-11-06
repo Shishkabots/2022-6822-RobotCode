@@ -35,6 +35,11 @@ public class DriveTrain extends SubsystemBase {
   public void tankdrive(double leftSpeed, double rightSpeed) {
     m_robotDrive.tankDrive(leftSpeed, rightSpeed * -1);
   }
+ 
+  public void curvaturedrive(double curveSpeed, double curveRotation, boolean isQuickTurn) {
+    m_robotDrive.curvatureDrive(curveSpeed, curveRotation, isQuickTurn);
+  }
+
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
