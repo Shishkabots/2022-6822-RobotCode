@@ -12,16 +12,13 @@ import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
-<<<<<<< HEAD
 import java.util.function.BooleanSupplier;
-=======
 import com.arctos6135.robotlib.logging.RobotLogger;
 import java.util.logging.Level;
 import java.io.IOException;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
 
->>>>>>> c022e30 (Logger Testing using RobotLib)
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
