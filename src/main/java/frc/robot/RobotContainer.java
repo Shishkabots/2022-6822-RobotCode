@@ -12,7 +12,16 @@ import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
+<<<<<<< HEAD
 import java.util.function.BooleanSupplier;
+=======
+import com.arctos6135.robotlib.logging.RobotLogger;
+import java.util.logging.Level;
+import java.io.IOException;
+import edu.wpi.first.networktables.NetworkTableEntry;
+
+
+>>>>>>> c022e30 (Logger Testing using RobotLib)
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,6 +43,10 @@ public class RobotContainer {
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
+  private RobotLogger logger = new RobotLogger();
+
+  private NetworkTableEntry lastError;
+  private NetworkTableEntry lastWarning;
 
   private final BooleanSupplier m_isQuickTurn = () -> false; //true makes it turn-in-place, false makes it do constant-curvature motion
  
@@ -56,6 +69,7 @@ public class RobotContainer {
     
     // Configure the button bindings
     configureButtonBindings();
+    initLogger();
   }
 
   /**
@@ -96,5 +110,36 @@ public class RobotContainer {
    */
   public DriveType getDriveType() {
     return m_driveType;
+  }
+
+
+  public void initLogger() {
+    try {
+        logger.init(RobotContainer.class);
+
+        // Set logger level
+        // Change this to include or exclude information
+        logger.setLevel(Level.FINE);
+        // Attach log handler to set the last error and warning
+        logger.setLogHandler((level, message) -> {
+            if (level == Level.SEVERE) {
+                lastError.setString(message);
+            } else if (level == Level.WARNING) {
+                lastWarning.setString(message);
+            }
+        });
+        // Clean old logs
+        logger.cleanLogs(72);
+        logger.logInfo("Logger initialized");
+    } catch (IOException e) {
+        e.printStackTrace();
+        lastError.setString("Failed to init logger!");
+    }
+  }
+
+  public void testLogger() {
+    logger.logInfo("test working!");
+    logger.flush();
+    //return("works");
   }
 }

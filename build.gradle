@@ -53,6 +53,12 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:3.12.4'
+    //testImplementation 'org.'
+    //https://github.com/Arctos6135/frc-2020/blob/master/src/main/java/frc/robot/RobotContainer.java
+    //https://github.com/Arctos6135/RobotLib/blob/master/src/main/java/com/arctos6135/robotlib/logging/RobotLogger.java
+    //https://github.com/brennan-macaig/RobotLogger -- problematic bc it needs you to set the urgency
+    
+    compile files('C:/Users/badar/2022-6822-RobotCode/build/libs/RobotLib-0.2.0.jar')
 
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging

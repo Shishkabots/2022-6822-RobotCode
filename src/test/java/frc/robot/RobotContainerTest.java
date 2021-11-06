@@ -19,11 +19,12 @@ public class RobotContainerTest {
     @Before
     public void setup() {
         _robotContainer = new RobotContainer();
+        _robotContainer.initLogger();
     }
 
     @Test
     public void testInitializeDrive() {
-        _robotContainer.setDriveType("Tank Drive");
-        Assert.assertEquals(_robotContainer.getDriveType(), RobotContainer.DriveType.TANK_DRIVE);
+        _robotContainer.testLogger();
+        //Assert.assertEquals(_robotContainer.getDriveType(), "test working!");
     }
 }
