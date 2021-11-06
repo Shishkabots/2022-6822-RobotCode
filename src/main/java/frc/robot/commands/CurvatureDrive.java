@@ -10,7 +10,7 @@ import java.util.function.DoubleSupplier;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-//import java.util.Math;
+
 /** An example command that uses an example subsystem. */
 public class CurvatureDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
@@ -24,10 +24,6 @@ public class CurvatureDrive extends CommandBase {
         */
     public CurvatureDrive(DoubleSupplier speed, DoubleSupplier rotation, BooleanSupplier isQuickTurn, DriveTrain drivetrain) {
         m_drivetrain = drivetrain;
-        //m_speed = Math.sqrt(speed.getAsDouble());
-        //m_rotation = Math.sqrt(rotation.getAsDouble());
-        //m_speed = speed.getAsDouble();
-        //m_rotation = rotation.getAsDouble();
         m_speed = speed;
         m_rotation = rotation;
         m_isQuickTurn = isQuickTurn;
@@ -57,9 +53,5 @@ public class CurvatureDrive extends CommandBase {
   @Override
   public boolean isFinished() {
     return false; // Runs until interrupted
-  
-  }
-
-
-  
+  } 
 }
