@@ -36,7 +36,7 @@ public class ArcadeDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ArcadeDrive initialized");
+    System.out.println("ArcadeDrive initialized + Checking test");
    }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +44,8 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     m_drivetrain.arcadedrive(m_speed.getAsDouble(), m_rotation.getAsDouble());
-    if(m_driverStick.getY() == 0){
+    if(m_driverStick.getY() < 0.01){
+      System.out.println("smoothStop execute1");
       smoothStop(m_speed.getAsDouble());
     }
   }
@@ -62,13 +63,11 @@ public class ArcadeDrive extends CommandBase {
   }
 
   public void smoothStop(double speedLoc){
-    
-    double curSpeed = speedLoc;
-    System.out.println("Smoothe stop called, curSpeed: " + curSpeed);
+    int curSpeed = ((Double) speedLoc).getAsInt();
     if(curSpeed == 0){
       return;
     } else {
-      
+      System.out.println("smoothStop starts");
       curSpeed /= 2;
       m_drivetrain.arcadedrive(curSpeed, m_rotation.getAsDouble());
       smoothStop(curSpeed);
