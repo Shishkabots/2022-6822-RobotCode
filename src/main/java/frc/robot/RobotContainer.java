@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.NonPID;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -58,7 +59,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTTRIGGER).whenHeld(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_FULLSPEED));
-   }
+    new JoystickButton(m_driverStick, Constants.JOYSTICK_BUTTON_X).toggleWhenPressed(new NonPID(m_drivetrain, 3));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -23,6 +23,10 @@ public class DriveTrain extends SubsystemBase {
   private final SpeedControllerGroup m_rightSide;
 
   private final DifferentialDrive m_robotDrive;
+  private final double m_startingEncoderPositionLeftFront;
+  private final double m_startingEncoderPositionLeftBack;
+  private final double m_startingEncoderPositionRightFront;
+  private final double m_startingEncoderPositionRightBack;
 
   /**
    * @brief Arcade drive for differential drive platform.
@@ -36,6 +40,29 @@ public class DriveTrain extends SubsystemBase {
   public void tankdrive(double leftSpeed, double rightSpeed) {
     m_robotDrive.tankDrive(leftSpeed, rightSpeed * -1);
   }
+  public double getEncoderPosition(String position) {
+    double returnValue = 0.0;
+    switch(position) {
+      case "Right":
+        double leftFrontMotor = m_leftFrontMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionLeftFront;
+        double distanceLeft = leftFrontMotor/ Constants.ENCODER_COUNT_TO_METERS;
+        returnValue = distanceLeft;
+      case "Left":
+        double RightFrontMotor = m_leftFrontMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionLeftFront;
+        double distanceRight = RightFrontMotor/ Constants.ENCODER_COUNT_TO_METERS * -1;
+        returnValue = distanceRight;
+      default:
+        System.out.println("None choosed. Position: " + position);
+        break;
+
+
+
+    }
+    return returnValue;
+
+  }
+
+
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
@@ -45,7 +72,6 @@ public class DriveTrain extends SubsystemBase {
     m_rightFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
     m_rightBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
     
-<<<<<<< HEAD
     m_leftFrontMotor.configFactoryDefault();
     m_rightFrontMotor.configFactoryDefault();
     m_leftBackMotor.configFactoryDefault();
@@ -58,20 +84,39 @@ public class DriveTrain extends SubsystemBase {
     m_rightFrontMotor  = new PWMTalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
     m_rightBackMotor  = new PWMTalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
     */
-=======
->>>>>>> main
+
     m_leftSide = new SpeedControllerGroup(m_leftFrontMotor, m_leftBackMotor);
     m_rightSide = new SpeedControllerGroup(m_rightFrontMotor, m_rightBackMotor);
 
     m_robotDrive = new DifferentialDrive(m_leftSide, m_rightSide); 
     
+    m_startingEncoderPositionLeftFront = m_leftFrontMotor.getSelectedSensorPosition(0);
+    m_startingEncoderPositionRightFront = m_rightFrontMotor.getSelectedSensorPosition(0);
+    m_startingEncoderPositionLeftBack = m_leftBackMotor.getSelectedSensorPosition(0);
+    m_startingEncoderPositionRightBack = m_rightBackMotor.getSelectedSensorPosition(0);
     
   }
 
   @Override
   public void periodic() {
-    double selSenPos = m_leftFrontMotor.getSelectedSensorPosition(0);
-    SmartDashboard.putNumber("Encoder position: ", selSenPos);
+    double selSenPosLeftFront = m_leftFrontMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionLeftFront;
+    double selSenPosRightFront = m_rightFrontMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionRightFront;
+    double selSenPosLeftBack = m_leftBackMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionLeftBack;
+    double selSenPosRightBack = m_rightBackMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionRightBack;
+    
+    double selSenDisLeftFront = selSenPosLeftFront / Constants.ENCODER_COUNT_TO_METERS;
+    double selSenDisRightFront = selSenPosRightFront / Constants.ENCODER_COUNT_TO_METERS;
+    double selSenDisLeftBack = selSenPosLeftBack / Constants.ENCODER_COUNT_TO_METERS;
+    double selSenDisRightBack = selSenPosRightBack / Constants.ENCODER_COUNT_TO_METERS;
+    
+    SmartDashboard.putNumber("Encoder position, LF: ", selSenPosLeftFront);
+    SmartDashboard.putNumber("Theoritical Distance, LF:", selSenDisLeftFront);
+    SmartDashboard.putNumber("Encoder position, RF: ", selSenPosRightFront);
+    SmartDashboard.putNumber("Theoritical Distance, RF:", selSenDisRightFront);
+    SmartDashboard.putNumber("Encoder position, LB: ", selSenPosLeftBack);
+    SmartDashboard.putNumber("Theoritical Distance, LB:", selSenDisLeftBack);
+    SmartDashboard.putNumber("Encoder position, RB: ", selSenPosRightBack);
+    SmartDashboard.putNumber("Theoritical Distance, RB:", selSenDisRightBack);
 
     // This method will be called once per scheduler run
   }

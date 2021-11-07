@@ -42,5 +42,9 @@ public final class Constants {
     // Speed sensitivity
     public final static double JOYSTICK_FULLSPEED = 1.0;
     public final static double JOYSTICK_THROTTLESPEED = 0.5;
+
+    // Encoder count to meters
+    public final static double ENCODER_COUNT_TO_METERS = 51810; // This is a guess, have to change for later
+    
     
 }
