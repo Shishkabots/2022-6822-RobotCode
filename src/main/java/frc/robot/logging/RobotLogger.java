@@ -49,7 +49,8 @@ import edu.wpi.first.wpilibj.DriverStation;
  * @author Tyler Tian
  */
 public class RobotLogger {
-    private Handler handler;
+    private ConsoleHandler consoleHandler;
+    private FileHandler fileHandler;
     private Formatter formatter;
     private Logger logger;
 
@@ -228,15 +229,19 @@ public class RobotLogger {
         this.formatter = new RobotLoggerFormatter();
 
         if (useConsoleHandler) {
-            this.handler = new ConsoleHandler();
+            this.consoleHandler = new ConsoleHandler();
+            this.logFile = new File(logFilePath);
+            consoleHandler.setFormatter(formatter);
+            logger.addHandler(consoleHandler);
 
         }
         else {
-            this.handler = new FileHandler();
+            this.fileHandler = new FileHandler();
+            this.logFile = new File(logFilePath);
+            fileHandler.setFormatter(formatter);
+            logger.addHandler(fileHandler);
         }
-        this.logFile = new File(logFilePath);
-        handler.setFormatter(formatter);
-        logger.addHandler(handler);
+
         isInitialized = true;
     }
 
@@ -402,7 +407,12 @@ public class RobotLogger {
      */
     public void flush() {
         if (isInitialized) {
-            handler.flush();
+            if (useConsoleHandler) {
+                consoleHandler.flush();
+            }
+            else {
+                fileHandler.flush();
+            }
         }
     }
 
