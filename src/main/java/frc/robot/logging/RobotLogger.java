@@ -1,3 +1,9 @@
+/** Credits to Team Arctos6135, https://github.com/Arctos6135/RobotLib/blob/master/src/main/java/com/arctos6135/robotlib/logging/RobotLogger.java, and @tylertian123 (https://github.com/tylertian123)
+ * Adapted for testing purposes and our own usage.
+ * 
+ * TO USE ROBOTLOGGER YOU MUST DOWNLOAD THE JAR -- https://github.com/Arctos6135/RobotLib/releases/tag/0.2.0
+ */
+
 package frc.robot.logging;
 
 import java.io.File;
