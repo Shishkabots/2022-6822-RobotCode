@@ -12,8 +12,11 @@ import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
+<<<<<<< HEAD
 import java.util.function.BooleanSupplier;
 import com.arctos6135.robotlib.logging.RobotLogger;
+=======
+>>>>>>> 380e575 (Removed unnecessary comments, cleaned up some code)
 import java.util.logging.Level;
 import java.io.IOException;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -109,28 +112,18 @@ public class RobotContainer {
     return m_driveType;
   }
 
-
+//initiates logger
   public void initLogger() {
     try {
         logger.init(RobotContainer.class);
+        logger.setLevel(Level.INFO);
 
-        // Set logger level
-        // Change this to include or exclude information
-        logger.setLevel(Level.FINE);
-        // Attach log handler to set the last error and warning
-        logger.setLogHandler((level, message) -> {
-            if (level == Level.SEVERE) {
-                lastError.setString(message);
-            } else if (level == Level.WARNING) {
-                lastWarning.setString(message);
-            }
-        });
-        // Clean old logs
-        logger.cleanLogs(72);
+        logger.cleanLogs(Constants.LOGCLEANLIMIT);
         logger.logInfo("Logger initialized");
-    } catch (IOException e) {
-        e.printStackTrace();
-        lastError.setString("Failed to init logger!");
+    } 
+    catch (IOException error) {
+        error.printStackTrace();
+        logger.logError("Failed to init logger!");
     }
   }
 

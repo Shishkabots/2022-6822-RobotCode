@@ -42,5 +42,8 @@ public final class Constants {
     // Speed sensitivity
     public final static double JOYSTICK_FULLSPEED = 1.0;
     public final static double JOYSTICK_THROTTLESPEED = 0.5;
+
+    //Logger
+    public final static double LOGCLEANLIMIT = 48; // number of hours, anytime before 48 hours ago the logger will discard logs.
     
 }
