@@ -66,7 +66,6 @@ public class RobotContainer {
     
     // Configure the button bindings
     configureButtonBindings();
-    initLogger();
   }
 
   /**
@@ -109,24 +108,23 @@ public class RobotContainer {
     return m_driveType;
   }
 
-//initiates logger
+// Initiates logger
   public void initLogger() {
     try {
         logger.init(RobotContainer.class);
         logger.setLevel(Level.INFO);
 
-        logger.cleanLogs(Constants.LOGCLEANLIMIT);
+        logger.cleanLogs(Constants.LOG_EXPIRATION_IN_HRS);
         logger.logInfo("Logger initialized");
     } 
     catch (IOException error) {
-        error.printStackTrace();
+        error.printStackTrace();  //needs to be addressed on Friday
         logger.logError("Failed to init logger!");
     }
   }
 
   public void testLogger() {
     logger.logInfo("test working!");
-    logger.flush();
-    //return("works");
+    logger.logError("errors working!");
   }
 }

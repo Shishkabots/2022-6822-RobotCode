@@ -1,7 +1,5 @@
 /** Credits to Team Arctos6135, https://github.com/Arctos6135/RobotLib/blob/master/src/main/java/com/arctos6135/robotlib/logging/RobotLogger.java, and @tylertian123 (https://github.com/tylertian123)
- * Adapted for testing purposes and our own usage.
- * 
- * TO USE ROBOTLOGGER YOU MUST DOWNLOAD THE JAR -- https://github.com/Arctos6135/RobotLib/releases/tag/0.2.0
+ * Adapted for testing purposes and our own usage on our robot.
  */
 
 package frc.robot.logging;
@@ -341,67 +339,9 @@ public class RobotLogger {
     }
 
     /**
-     * Logs fine info.
      * 
-     * <p>
-     * The info will be logged with the {@code FINE} level. If the logger is not
-     * initialized, this will have no effect.
-     * </p>
-     * 
-     * @param infoFine The info message
-     */
-    public void logInfoFine(String infoFine) {
-        if (isInitialized) {
-            logger.fine(infoFine);
-
-            if (logHandler != null) {
-                logHandler.accept(Level.FINE, infoFine);
-            }
-        }
-    }
-
-    /**
-     * Logs finer info.
-     * 
-     * <p>
-     * The info will be logged with the {@code FINER} level. If the logger is not
-     * initialized, this will have no effect.
-     * </p>
-     * 
-     * @param infoFiner The info message
-     */
-    public void logInfoFiner(String infoFiner) {
-        if (isInitialized) {
-            logger.finer(infoFiner);
-
-            if (logHandler != null) {
-                logHandler.accept(Level.FINER, infoFiner);
-            }
-        }
-    }
-
-    /**
-     * Logs finest info.
-     * 
-     * <p>
-     * The info will be logged with the {@code FINEST} level. If the logger is not
-     * initialized, this will have no effect.
-     * </p>
-     * 
-     * @param infoFinest The info message
-     */
-    public void logInfoFinest(String infoFinest) {
-        if (isInitialized) {
-            logger.finest(infoFinest);
-
-            if (logHandler != null) {
-                logHandler.accept(Level.FINEST, infoFinest);
-            }
-        }
-    }
-
-    /**
-     * Writes the logs out to a file.
+     * If @param useConsoleHandler is true - Writes the logs to console.
+     * If @param useConsoleHandler is false - Writes the logs out to a file.
      * 
      * <p>
      * This is automatically done via a shutdown hook when the VM exits. However, as
