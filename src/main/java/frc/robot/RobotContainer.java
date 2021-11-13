@@ -19,7 +19,6 @@ import java.io.IOException;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
 
-
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -118,12 +117,8 @@ public class RobotContainer {
         logger.logInfo("Logger initialized");
     } 
     catch (IOException error) {
-        error.printStackTrace();  //needs to be addressed on Friday
-        logger.logError("Failed to init logger!");
+      logger.logError("Failed to init logger!");
+      throw error;
     }
-  }
-  public void testLogger() {
-    logger.logInfo("Test working!");
-    logger.logError("Errors working!");
   }
 }

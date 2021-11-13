@@ -427,8 +427,6 @@ public class RobotLogger {
                     }
                 }
             } catch (IOException e) {
-                // WTF
-                e.printStackTrace();
                 throw new UncheckedIOException("Something bad just happened that never should", e);
             }
         }
