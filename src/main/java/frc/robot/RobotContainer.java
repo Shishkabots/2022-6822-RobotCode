@@ -13,6 +13,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import java.util.function.BooleanSupplier;
+import frc.robot.logging.RobotLogger;
+import java.util.logging.Level;
+import java.io.IOException;
+import edu.wpi.first.networktables.NetworkTableEntry;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,6 +39,10 @@ public class RobotContainer {
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
+  RobotLogger logger = new RobotLogger();
+
+  private NetworkTableEntry lastError;
+  private NetworkTableEntry lastWarning;
 
   private final BooleanSupplier m_isQuickTurn = () -> false; //true makes it turn-in-place, false makes it do constant-curvature motion
  
@@ -96,5 +105,20 @@ public class RobotContainer {
    */
   public DriveType getDriveType() {
     return m_driveType;
+  }
+
+// Initiates logger
+  public void initLogger() {
+    try {
+        logger.init(RobotContainer.class);
+        logger.setLevel(Level.INFO);
+
+        logger.cleanLogs(Constants.LOG_EXPIRATION_IN_HRS);
+        logger.logInfo("Logger initialized");
+    } 
+    catch (IOException error) {
+      logger.logError("Failed to init logger!");
+      throw new RuntimeException(error);
+    }
   }
 }
