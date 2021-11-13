@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import java.util.function.BooleanSupplier;
-import com.arctos6135.robotlib.logging.RobotLogger;
+import frc.robot.logging.RobotLogger;
 import java.util.logging.Level;
 import java.io.IOException;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -118,7 +118,7 @@ public class RobotContainer {
     } 
     catch (IOException error) {
       logger.logError("Failed to init logger!");
-      throw error;
+      throw new RuntimeException(error);
     }
   }
 }
