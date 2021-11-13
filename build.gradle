@@ -1,6 +1,18 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.diffplug.spotless:spotless-plugin-gradle:6.0.0"
+  }
+}
+
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2021.1.2"
+    id "com.diffplug.spotless" version "6.0.0"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -77,7 +89,16 @@ jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
-
 test {
     useJUnit()
+    spotless()
+}
+spotless {
+    java {
+        target project.fileTree(dir: 'src', include: '**/*.java')
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        replaceRegex 'Remove empty lines before end of block', '\\n[\\n]+(\\s*})(?=\\n)', '\n$1'
+        replaceRegex 'Remove trailing empty comment lines.', '\n\\s*\\*(\n\\s*\\*/\n)', '$1'
+    }
 }
