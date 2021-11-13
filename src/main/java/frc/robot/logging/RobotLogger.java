@@ -67,7 +67,6 @@ public class RobotLogger {
 
     private boolean useConsoleHandler = true;
 
-
     /**
      * Constructs a new logger instance.
      * 

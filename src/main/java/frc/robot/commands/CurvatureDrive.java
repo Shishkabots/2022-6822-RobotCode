@@ -11,12 +11,17 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.logging.RobotLogger;
+import frc.robot.RobotContainer;
+
 /** An example command that uses an example subsystem. */
 public class CurvatureDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
   private final DoubleSupplier m_speed;
   private final DoubleSupplier m_rotation;
   private final BooleanSupplier m_isQuickTurn;
+  private final RobotLogger logger = RobotContainer.getLogger();
+
       /**
         * Creates a new CurvatureDrive command.
         *
@@ -33,7 +38,7 @@ public class CurvatureDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("CurvatureDrive initialized");
+    logger.logInfo("CurvatureDrive initialized");
    }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,7 +51,7 @@ public class CurvatureDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("CurvatureDrive interrupted: " + interrupted);
+    logger.logInfo("CurvatureDrive interrupted: " + interrupted);
   }
 
   // Returns true when the command should end.
