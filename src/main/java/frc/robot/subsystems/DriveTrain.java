@@ -40,17 +40,19 @@ public class DriveTrain extends SubsystemBase {
   public void tankdrive(double leftSpeed, double rightSpeed) {
     m_robotDrive.tankDrive(leftSpeed, rightSpeed * -1);
   }
-  public double getEncoderPosition(String position) {
+  public double getEncoderPosition(int position) {
     double returnValue = 0.0;
     switch(position) {
-      case "Right":
+      case 0:
         double leftFrontMotor = m_leftFrontMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionLeftFront;
         double distanceLeft = leftFrontMotor/ Constants.ENCODER_COUNT_TO_METERS;
         returnValue = distanceLeft;
-      case "Left":
+        break;
+      case 1:
         double RightFrontMotor = m_leftFrontMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionLeftFront;
         double distanceRight = RightFrontMotor/ Constants.ENCODER_COUNT_TO_METERS * -1;
         returnValue = distanceRight;
+        break;
       default:
         System.out.println("None choosed. Position: " + position);
         break;

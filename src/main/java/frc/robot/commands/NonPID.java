@@ -54,10 +54,11 @@ public class NonPID extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double currentDistance = m_drivetrain.getEncoderPosition("Right") / 2 + m_drivetrain.getEncoderPosition("Left") / 2;
+    double currentDistance = m_drivetrain.getEncoderPosition(0) / 2 + m_drivetrain.getEncoderPosition(1) / 2;
     if (currentDistance < m_targetDistance) {
-        m_speed = 0.1;    
-        return false;
+      System.out.println("Is running");  
+      m_speed = 0.1;    
+      return false;
     } else {
         m_speed = 0.0;
         return true;
