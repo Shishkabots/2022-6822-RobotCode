@@ -50,7 +50,7 @@ public class DriveTrain extends SubsystemBase {
         break;
       case 1:
         double RightFrontMotor = m_leftFrontMotor.getSelectedSensorPosition(0) - m_startingEncoderPositionLeftFront;
-        double distanceRight = RightFrontMotor/ Constants.ENCODER_COUNT_TO_METERS * -1;
+        double distanceRight = RightFrontMotor/ Constants.ENCODER_COUNT_TO_METERS;
         returnValue = distanceRight;
         break;
       default:

@@ -26,7 +26,7 @@ public class NonPID extends CommandBase {
     m_drivetrain = drivetrain;
     m_targetDistance = targetdistance;
 
-    m_speed = 0.1;
+    m_speed = 0.5;
     addRequirements(m_drivetrain);
 
   }
@@ -55,9 +55,11 @@ public class NonPID extends CommandBase {
   @Override
   public boolean isFinished() {
     double currentDistance = m_drivetrain.getEncoderPosition(0) / 2 + m_drivetrain.getEncoderPosition(1) / 2;
+    System.out.println(m_targetDistance - currentDistance);
+    System.out.println("Current" + currentDistance);
     if (currentDistance < m_targetDistance) {
-      System.out.println("Is running");  
-      m_speed = 0.1;    
+      // System.out.println(m_speed);  
+      m_speed = 0.5;    
       return false;
     } else {
         m_speed = 0.0;

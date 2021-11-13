@@ -59,7 +59,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTTRIGGER).whenHeld(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_FULLSPEED));
-    new JoystickButton(m_driverStick, Constants.JOYSTICK_BUTTON_X).toggleWhenPressed(new NonPID(m_drivetrain, 3));
+    new JoystickButton(m_driverStick, Constants.JOYSTICK_BUTTON_X).toggleWhenPressed(new NonPID(m_drivetrain, 1));
   }
 
   /**
