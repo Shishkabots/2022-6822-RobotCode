@@ -40,7 +40,7 @@ public class RobotContainer {
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
-  private RobotLogger logger = new RobotLogger();
+  RobotLogger logger = new RobotLogger();
 
   private NetworkTableEntry lastError;
   private NetworkTableEntry lastWarning;
@@ -122,9 +122,8 @@ public class RobotContainer {
         logger.logError("Failed to init logger!");
     }
   }
-
   public void testLogger() {
-    logger.logInfo("test working!");
-    logger.logError("errors working!");
+    logger.logInfo("Test working!");
+    logger.logError("Errors working!");
   }
 }

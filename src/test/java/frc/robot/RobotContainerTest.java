@@ -29,6 +29,8 @@ public class RobotContainerTest {
     @Test
     public void testLogger() {
         _robotContainer.initLogger();
-        _robotContainer.testLogger();
+        _robotContainer.logger.logInfo("Test working!");
+        _robotContainer.logger.logError("Errors working!");
     }
+    
 }
