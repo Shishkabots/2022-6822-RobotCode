@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.Assert;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
+import frc.robot.logging.RobotLogger;
 
 public class RobotContainerTest {
 
@@ -26,11 +27,12 @@ public class RobotContainerTest {
         _robotContainer.setDriveType("Tank Drive");
         Assert.assertEquals(_robotContainer.getDriveType(), RobotContainer.DriveType.TANK_DRIVE);
     }
+
     @Test
     public void testLogger() {
-        _robotContainer.initLogger();
-        _robotContainer.logger.logInfo("Test working!");
-        _robotContainer.logger.logError("Errors working!");
+        RobotLogger logger = RobotContainer.getLogger();
+        logger.logInfo("Test working!");
+        logger.logError("Errors working!");
     }
     
 }

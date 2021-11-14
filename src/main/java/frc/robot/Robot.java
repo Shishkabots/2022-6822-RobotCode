@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.logging.RobotLogger;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -22,6 +23,8 @@ public class Robot extends TimedRobot {
   private String m_driveMode;
   private RobotContainer m_robotContainer;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final RobotLogger logger = RobotContainer.getLogger();
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -84,7 +87,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     m_driveMode = m_chooser.getSelected();
-    System.out.println("Drive Mode: " + m_driveMode);
+    logger.logInfo("Drive Mode: " + m_driveMode);
   }
 
   /** This function is called periodically during operator control. */

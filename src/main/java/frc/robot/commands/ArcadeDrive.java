@@ -10,11 +10,15 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.logging.RobotLogger;
+import frc.robot.RobotContainer;
+
 /** An example command that uses an example subsystem. */
 public class ArcadeDrive extends CommandBase {
   private final DriveTrain m_drivetrain;
   private final DoubleSupplier m_speed;
   private final DoubleSupplier m_rotation;
+  private final RobotLogger logger = RobotContainer.getLogger();
 
   /**
    * Creates a new ArcadeDrive command.
@@ -32,7 +36,7 @@ public class ArcadeDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ArcadeDrive initialized");
+    logger.logInfo("ArcadeDrive initialized");
    }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +49,7 @@ public class ArcadeDrive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Arcadedrive ended, interrupted = " + interrupted);
+    logger.logInfo("Arcadedrive ended, interrupted = " + interrupted);
   }
 
   // Returns true when the command should end.

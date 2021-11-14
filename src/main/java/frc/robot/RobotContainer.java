@@ -16,8 +16,6 @@ import java.util.function.BooleanSupplier;
 import frc.robot.logging.RobotLogger;
 import java.util.logging.Level;
 import java.io.IOException;
-import edu.wpi.first.networktables.NetworkTableEntry;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,12 +37,10 @@ public class RobotContainer {
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
-  RobotLogger logger = new RobotLogger();
+  private static RobotLogger logger;
 
-  private NetworkTableEntry lastError;
-  private NetworkTableEntry lastWarning;
-
-  private final BooleanSupplier m_isQuickTurn = () -> false; //true makes it turn-in-place, false makes it do constant-curvature motion
+  // True makes it turn-in-place, false makes it do constant-curvature motion.
+  private final BooleanSupplier m_isQuickTurn = () -> false; 
  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -107,18 +103,27 @@ public class RobotContainer {
     return m_driveType;
   }
 
-// Initiates logger
-  public void initLogger() {
+  // Initiates logger
+    private static void initLogger(RobotLogger log) {
     try {
-        logger.init(RobotContainer.class);
-        logger.setLevel(Level.INFO);
+        log.init(RobotContainer.class);
+        log.setLevel(Level.INFO);
 
-        logger.cleanLogs(Constants.LOG_EXPIRATION_IN_HRS);
-        logger.logInfo("Logger initialized");
+        log.cleanLogs(Constants.LOG_EXPIRATION_IN_HRS);
+        log.logInfo("Logger initialized");
     } 
     catch (IOException error) {
-      logger.logError("Failed to init logger!");
+      log.logError("Failed to init logger!");
       throw new RuntimeException(error);
     }
+  }
+
+  //Gets logger
+  public static RobotLogger getLogger() {
+    if (logger == null) {
+      logger = new RobotLogger();
+      initLogger(logger);
+    }
+    return logger;
   }
 }
