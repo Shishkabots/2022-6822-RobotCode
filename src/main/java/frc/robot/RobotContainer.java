@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.CurvatureDrive;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
@@ -35,6 +37,7 @@ public class RobotContainer {
   private Command m_autoCommand;
   private Command m_teleopCommand;
   private final DriveTrain m_drivetrain = new DriveTrain();
+  private final Shooter m_shooter = new Shooter();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
   private static RobotLogger logger;
@@ -71,6 +74,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTTRIGGER).whenHeld(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_FULLSPEED));
+    new JoystickButton(m_driverStick, Constants.JOYSTICK_LEFTTRIGGER).whenHeld(new Shoot(m_shooter));
    }
 
   /**
