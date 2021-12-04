@@ -13,6 +13,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 
 /**
@@ -33,9 +35,11 @@ public class Shoot extends CommandBase {
     }
 
     // Called every time the scheduler runs while the command is scheduled.
-    @Override
+    @Override   
     public void execute() {
-        m_shooter.setSpeed(0.5); //test speed 
+        SmartDashboard.putNumber("shooter value ", 0.5);
+        m_shooter.setSpeed(0.5); //test speed, allow it to be set in smartdash
+
     }
 
     // Called once the command ends or is interrupted.
