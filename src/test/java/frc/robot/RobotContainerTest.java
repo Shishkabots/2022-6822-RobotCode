@@ -32,5 +32,10 @@ public class RobotContainerTest {
         logger.logInfo("Test working!");
         logger.logError("Errors working!");
     }
+
+    @Test
+    public void testShooter() {
+        _robotContainer.set
+    }
     
 }
