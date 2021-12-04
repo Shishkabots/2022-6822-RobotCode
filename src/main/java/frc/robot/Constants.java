@@ -45,5 +45,8 @@ public final class Constants {
 
     // Retention time in hours for logs on the RoboRIO target
     public final static double LOG_EXPIRATION_IN_HRS = 48;
+
+    // Intake motor IDs
+    //public final static double INTAKE_LEFT_MOTOR = 1;
     
 }

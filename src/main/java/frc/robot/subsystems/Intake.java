@@ -10,7 +10,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
-public class DriveTrain extends SubsystemBase {
+
+public class Intake extends SubsystemBase {
+    
+    private final WPI_TalonFX m_leftIntakeMotor;
+    private final WPI_TalonFX m_rightIntakeMotor;
 
   /** Creates a new DriveTrain. */
   public Intake() {
