@@ -19,7 +19,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new DriveTrain. */
   public Intake() {
     m_leftIntakeMotor = new WPI_TalonFX(Constants.INTAKE_LEFT_MOTOR);
-    m_rightIntakeMotor =  new WPI_TalonFX(Constants.INTAKE_RIGHT_MOTOR);//idtthis gonanw ork 
+    m_rightIntakeMotor =  new WPI_TalonFX(Constants.INTAKE_RIGHT_MOTOR); //yet to test on real robot 
   }
 
   @Override

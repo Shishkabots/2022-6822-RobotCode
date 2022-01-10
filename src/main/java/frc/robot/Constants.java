@@ -47,6 +47,6 @@ public final class Constants {
     public final static double LOG_EXPIRATION_IN_HRS = 48;
 
     // Intake motor IDs
-    //public final static double INTAKE_LEFT_MOTOR = 1;
-    
+    public final static int INTAKE_LEFT_MOTOR = 1; //change to new can ID
+    public final static int INTAKE_RIGHT_MOTOR = 2; //as above
 }
