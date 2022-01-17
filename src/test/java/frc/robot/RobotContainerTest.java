@@ -9,8 +9,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
 import frc.robot.logging.RobotLogger;
 
 public class RobotContainerTest {
