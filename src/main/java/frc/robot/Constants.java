@@ -20,7 +20,8 @@ public final class Constants {
     public final static int DRIVETRAIN_LEFT_BACK_MOTOR = 4;
     public final static int SHOOTER_MOTOR = 5;
     
-    
+    public final static int INTAKE_MOTOR = 5;
+
     public final static int DRIVER_STICK_PORT = 0;
 
     // Joystick Ids    
