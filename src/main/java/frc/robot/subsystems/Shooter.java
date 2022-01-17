@@ -17,6 +17,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.Constants;
+import frc.robot.logging.RobotLogger;
+
+
+
 
 /**
  *
@@ -24,7 +28,12 @@ import frc.robot.Constants;
 public class Shooter extends SubsystemBase {
 
     private final WPI_TalonFX m_shootMotor;
-    
+    private ShooterState shooterState = ShooterState.OFF;
+    //private RobotLogger logger = RobotContainer.getLogger();
+
+    public enum ShooterState {
+        OFF, TARGETING, FIRE
+    }
     /**
     *
     */
@@ -42,6 +51,27 @@ public class Shooter extends SubsystemBase {
     public void simulationPeriodic() {
         // This method will be called once per scheduler run when in simulation
 
+    }
+
+    public void updateState() {
+        switch(shooterState) {
+            case OFF:
+                //turns off shooter
+                break;
+            case TARGETING:
+                //targets the goal, calculates necessary math to be ready to fire
+                //set state to fire in here
+                break;
+            case FIRE:
+                //fires ball by spinning flywheel at desired parameters
+                break;
+        }
+    }
+
+    public void setFire(boolean ready) {
+        if (ready) {
+            shooterState = ShooterState.FIRE;
+        }
     }
 
     public void setSpeed(double speed) {

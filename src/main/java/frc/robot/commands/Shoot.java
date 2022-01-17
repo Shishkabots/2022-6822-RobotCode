@@ -16,7 +16,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-
 /**
  *
  */
@@ -38,7 +37,7 @@ public class Shoot extends CommandBase {
     @Override   
     public void execute() {
         SmartDashboard.putNumber("shooter value ", 0.5);
-        m_shooter.setSpeed(0.5); //test speed, allow it to be set in smartdash
+        m_shooter.setFire(true); //test speed, allow it to be set in smartdash
 
     }
 

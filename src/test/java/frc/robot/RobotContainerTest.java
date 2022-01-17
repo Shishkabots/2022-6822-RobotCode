@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 import org.junit.Ignore;
 import java.util.function.DoubleSupplier;
 
@@ -14,10 +15,12 @@ import frc.robot.logging.RobotLogger;
 public class RobotContainerTest {
 
     RobotContainer _robotContainer;
+    Shooter _shooter;
 
     @Before
     public void setup() {
         _robotContainer = new RobotContainer();
+        _shooter = new Shooter();
     }
 
     @Test
@@ -31,6 +34,11 @@ public class RobotContainerTest {
         RobotLogger logger = RobotContainer.getLogger();
         logger.logInfo("Test working!");
         logger.logError("Errors working!");
+    }
+
+    @Test
+    public void testShooter() {
+        _shooter.setFire(true);
     }
     
 }
