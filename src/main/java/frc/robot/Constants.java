@@ -46,5 +46,7 @@ public final class Constants {
     // Encoder count to meters
     public final static double ENCODER_COUNT_TO_METERS = 51810; // This is a guess, have to change for later
     
+    // Retention time in hours for logs on the RoboRIO target
+    public final static double LOG_EXPIRATION_IN_HRS = 48;
     
 }

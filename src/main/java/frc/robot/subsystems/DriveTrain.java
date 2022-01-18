@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 public class DriveTrain extends SubsystemBase {
 
@@ -19,8 +19,8 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_TalonFX m_rightFrontMotor;
   private final WPI_TalonFX m_rightBackMotor;
 
-  private SpeedControllerGroup m_leftSide;
-  private final SpeedControllerGroup m_rightSide;
+  private MotorControllerGroup m_leftSide;
+  private final MotorControllerGroup m_rightSide;
 
   private final DifferentialDrive m_robotDrive;
   private final double m_startingEncoderPositionLeftFront;
@@ -65,6 +65,11 @@ public class DriveTrain extends SubsystemBase {
   }
 
 
+ 
+  public void curvaturedrive(double curveSpeed, double curveRotation, boolean isQuickTurn) {
+    m_robotDrive.curvatureDrive(curveSpeed, curveRotation, isQuickTurn);
+  }
+
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
@@ -73,22 +78,15 @@ public class DriveTrain extends SubsystemBase {
     m_leftBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_LEFT_BACK_MOTOR);
     m_rightFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
     m_rightBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
-    
+
     m_leftFrontMotor.configFactoryDefault();
     m_rightFrontMotor.configFactoryDefault();
     m_leftBackMotor.configFactoryDefault();
     m_rightBackMotor.configFactoryDefault();
 
-    /**
-    m_leftFrontMotor = new PWMTalonFX(Constants.DRIVETRAIN_LEFT_FRONT_MOTOR);
-    m_leftBackMotor = new PWMTalonFX(Constants.DRIVETRAIN_LEFT_BACK_MOTOR);
-  
-    m_rightFrontMotor  = new PWMTalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
-    m_rightBackMotor  = new PWMTalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
-    */
+    m_leftSide = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
+    m_rightSide = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
 
-    m_leftSide = new SpeedControllerGroup(m_leftFrontMotor, m_leftBackMotor);
-    m_rightSide = new SpeedControllerGroup(m_rightFrontMotor, m_rightBackMotor);
 
     m_robotDrive = new DifferentialDrive(m_leftSide, m_rightSide); 
     
