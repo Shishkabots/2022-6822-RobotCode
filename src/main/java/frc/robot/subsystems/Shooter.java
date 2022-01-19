@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.Constants;
 import frc.robot.logging.RobotLogger;
+import frc.robot.RobotContainer;
 
 
 
@@ -29,7 +30,7 @@ public class Shooter extends SubsystemBase {
 
     private final WPI_TalonFX m_shootMotor;
     private ShooterState shooterState = ShooterState.OFF;
-    //private RobotLogger logger = RobotContainer.getLogger();
+    private final RobotLogger logger = RobotContainer.getLogger();
 
     public enum ShooterState {
         OFF, TARGETING, FIRE
@@ -63,7 +64,9 @@ public class Shooter extends SubsystemBase {
                 //set state to fire in here
                 break;
             case FIRE:
-                //fires ball by spinning flywheel at desired parameters
+                logger.logInfo("Firing sequence initiated.");
+                //fires ball by spinning flywheel at desired parameters  <-- code goes here
+                logger.logInfo("Firing sequence terminated.");
                 break;
         }
     }
@@ -71,6 +74,7 @@ public class Shooter extends SubsystemBase {
     public void setFire(boolean ready) {
         if (ready) {
             shooterState = ShooterState.FIRE;
+            updateState();
         }
     }
 
