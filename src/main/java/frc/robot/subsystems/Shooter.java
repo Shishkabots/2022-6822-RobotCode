@@ -57,11 +57,15 @@ public class Shooter extends SubsystemBase {
     public void updateState() {
         switch(shooterState) {
             case OFF:
-                //turns off shooter
+                //turns off shooter   <-- code goes here
+                logger.logInfo("Shooter powered off.");
                 break;
             case TARGETING:
+                logger.logInfo("Targeting sequence initiated.");
+
                 //targets the goal, calculates necessary math to be ready to fire
                 //set state to fire in here
+                logger.logInfo("Targeting complete, ready to begin firing sequence.")
                 break;
             case FIRE:
                 logger.logInfo("Firing sequence initiated.");
@@ -78,6 +82,7 @@ public class Shooter extends SubsystemBase {
         }
     }
 
+    //marked for removal - don't really need as this will go in the FIRE case anyway.
     public void setSpeed(double speed) {
         m_shootMotor.set(speed);
     }
