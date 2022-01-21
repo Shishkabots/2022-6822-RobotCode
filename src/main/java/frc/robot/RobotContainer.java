@@ -4,13 +4,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.CurvatureDrive;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveTrain;
+<<<<<<< HEAD
 import frc.robot.subsystems.Shooter;
+=======
+import frc.robot.subsystems.Intake;
+>>>>>>> 56b9f42 (finalized Intake.java, code still have error because update to vs code)
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
@@ -27,7 +35,6 @@ import java.io.IOException;
  */
 public class RobotContainer {
   // The robot's commands, subsystems, and IO devices are defined here...
-
   public enum DriveType {
     ARCADE_DRIVE,
     TANK_DRIVE,
@@ -41,6 +48,7 @@ public class RobotContainer {
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
   private static RobotLogger logger;
+  private final Intake intake = new Intake();
 
   // True makes it turn-in-place, false makes it do constant-curvature motion.
   private final BooleanSupplier m_isQuickTurn = () -> false; 
@@ -62,6 +70,8 @@ public class RobotContainer {
         m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED));
     }
     
+    intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", intake.intakeVelocity()), intake));
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -75,9 +85,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Removes speed throttling during ArcadeDrive, allows robot to move at max speed.
     new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTTRIGGER).whenHeld(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_FULLSPEED));
+<<<<<<< HEAD
 
     // Activates shooter upon holding left trigger, can modify depending on how we want to activate shooter.
     new JoystickButton(m_driverStick, Constants.JOYSTICK_LEFTTRIGGER).whileHeld(new Shoot(m_shooter));
+=======
+    
+    new JoystickButton(m_driverStick, Constants.INTAKE_MOTOR).whileHeld(
+      new StartEndCommand(
+        () -> intake.setIntake(0.5),
+        () -> intake.setIntake(0), intake));
+>>>>>>> 56b9f42 (finalized Intake.java, code still have error because update to vs code)
    }
 
   /**

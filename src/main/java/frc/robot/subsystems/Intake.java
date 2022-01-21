@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Constants;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class Intake extends SubsystemBase {
 
   private final TalonSRX INTAKE_MOTOR; //use srx or fx for the moter
   //https://binnur.gitbooks.io/spartronics-developers-handbook/content/commands_subsystems/
@@ -29,7 +29,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private final DifferentialDrive m_robotDrive;
 
-  public IntakeSubsystem(){
+  public Intake(){
     INTAKE_MOTOR = new TalonSRX(Constants.INTAKE_MOTOR);
     intakeSlave = new TalonSRX(6);
 
