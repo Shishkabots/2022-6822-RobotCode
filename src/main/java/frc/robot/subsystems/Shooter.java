@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
     *
     */
     public Shooter() {
-        m_shootMotor = new WPI_TalonFX(Constants.DRIVETRAIN_LEFT_FRONT_MOTOR); //test motor, change for eventual shooter.
+        m_shootMotor = new WPI_TalonFX(Constants.SHOOTER_MOTOR); //test motor, change for eventual shooter.
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Shooter extends SubsystemBase {
 
                 //targets the goal, calculates necessary math to be ready to fire
                 //set state to fire in here
-                logger.logInfo("Targeting complete, ready to begin firing sequence.")
+                logger.logInfo("Targeting complete, ready to begin firing sequence.");
                 break;
             case FIRE:
                 logger.logInfo("Firing sequence initiated.");
