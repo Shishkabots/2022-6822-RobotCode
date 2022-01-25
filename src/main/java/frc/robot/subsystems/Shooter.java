@@ -12,8 +12,8 @@
 package frc.robot.subsystems;
 
 
-import frc.robot.commands.*;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+//import frc.robot.commands.*;
+//import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.Constants;
@@ -21,11 +21,9 @@ import frc.robot.logging.RobotLogger;
 import frc.robot.RobotContainer;
 
 
-
-
-/**
- *
- */
+  /**
+   * Creates new shooter
+   */
 public class Shooter extends SubsystemBase {
 
     private final WPI_TalonFX m_shootMotor;
@@ -36,7 +34,7 @@ public class Shooter extends SubsystemBase {
         OFF, TARGETING, FIRE
     }
     /**
-    *
+    * Initializes shooter motor.
     */
     public Shooter() {
         m_shootMotor = new WPI_TalonFX(Constants.SHOOTER_MOTOR); //test motor, change for eventual shooter.
@@ -82,8 +80,13 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    //marked for removal - don't really need as this will go in the FIRE case anyway.
+    //marked for removal upon addition of FIRE case fully - don't really need as this will go in the FIRE case anyway.
     public void setSpeed(double speed) {
         m_shootMotor.set(speed);
+    }
+
+    // Gets shooter state
+    public Shooter.ShooterState getShooterState() {
+        return shooterState;
     }
 }

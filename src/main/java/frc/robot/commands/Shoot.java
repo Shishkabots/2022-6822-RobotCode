@@ -36,7 +36,6 @@ public class Shoot extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override   
     public void execute() {
-        SmartDashboard.putNumber("shooter value ", 0.5);
         m_shooter.setFire(true); //test speed, allow it to be set in smartdash
 
     }

@@ -2,6 +2,8 @@ package frc.robot;
 
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.ShooterState;
+
 import org.junit.Ignore;
 import java.util.function.DoubleSupplier;
 
@@ -39,6 +41,7 @@ public class RobotContainerTest {
     @Test
     public void testShooter() {
         _shooter.setFire(true);
+        Assert.assertEquals(_shooter.getShooterState(), ShooterState.FIRE);
     }
     
 }

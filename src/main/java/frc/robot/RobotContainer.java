@@ -73,7 +73,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // Removes speed throttling during ArcadeDrive, allows robot to move at max speed.
     new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTTRIGGER).whenHeld(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_FULLSPEED));
+
+    // Activates shooter upon holding left trigger, can modify depending on how we want to activate shooter.
     new JoystickButton(m_driverStick, Constants.JOYSTICK_LEFTTRIGGER).whileHeld(new Shoot(m_shooter));
    }
 
