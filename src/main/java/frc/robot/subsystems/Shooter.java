@@ -19,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.Constants;
 import frc.robot.logging.RobotLogger;
 import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
   /**
@@ -29,9 +30,10 @@ public class Shooter extends SubsystemBase {
     private final WPI_TalonFX m_shootMotor;
     private ShooterState shooterState = ShooterState.OFF;
     private final RobotLogger logger = RobotContainer.getLogger();
+    private double targetSpeed;
 
     public enum ShooterState {
-        OFF, TARGETING, FIRE
+        OFF, IDLE, TARGETING, FIRE
     }
     /**
     * Initializes shooter motor.
@@ -43,7 +45,9 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        //run through cases, will either target or fire when ready
 
+        checkState();
     }
 
     @Override
@@ -52,22 +56,31 @@ public class Shooter extends SubsystemBase {
 
     }
 
-    public void updateState() {
+    public void checkState() {
         switch(shooterState) {
             case OFF:
-                //turns off shooter   <-- code goes here
+                // Turns off shooter   <-- code goes here
                 logger.logInfo("Shooter powered off.");
+                SmartDashboard.putString("Shooter state", "OFF");
                 break;
+            case IDLE:
+               SmartDashboard.putString("Shooter state", "IDLE");
+               break;
             case TARGETING:
                 logger.logInfo("Targeting sequence initiated.");
+                SmartDashboard.putString("Shooter state", "TARGETING");
 
-                //targets the goal, calculates necessary math to be ready to fire
-                //set state to fire in here
+                // Targets goal, code still to be added. Do we spin up motor here or fire?
+                shooterState = ShooterState.FIRE;
                 logger.logInfo("Targeting complete, ready to begin firing sequence.");
                 break;
             case FIRE:
                 logger.logInfo("Firing sequence initiated.");
-                //fires ball by spinning flywheel at desired parameters  <-- code goes here
+                SmartDashboard.putString("Shooter state", "FIRE");
+                
+                // Gets target RPM number calculated in TargetLocate.java and sets motor to that speed.
+                targetSpeed = SmartDashboard.getNumber("Target flywheel speed", 0.0);
+                setSpeed(targetSpeed);
                 logger.logInfo("Firing sequence terminated.");
                 break;
         }
@@ -76,11 +89,10 @@ public class Shooter extends SubsystemBase {
     public void setFire(boolean ready) {
         if (ready) {
             shooterState = ShooterState.FIRE;
-            updateState();
+            checkState();
         }
     }
 
-    //marked for removal upon addition of FIRE case fully - don't really need as this will go in the FIRE case anyway.
     public void setSpeed(double speed) {
         m_shootMotor.set(speed);
     }

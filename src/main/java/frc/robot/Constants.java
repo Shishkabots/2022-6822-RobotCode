@@ -46,5 +46,12 @@ public final class Constants {
 
     // Retention time in hours for logs on the RoboRIO target
     public final static double LOG_EXPIRATION_IN_HRS = 48;
-    
+
+    // Distance calculations
+
+    // Robot height and turret angle are PLACEHOLDERS, NOT ACCURATE
+    public final static double ROBOT_HEIGHT_IN_CM = 144.78;
+    public final static double HUB_HEIGHT_IN_CM = 264;
+    public final static double TURRET_ANGLE_IN_DEGREES = 30; 
+    public final static double GRAVITY_M_PER_SEC_SQUARED = 9.81;
 }
