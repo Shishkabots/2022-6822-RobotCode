@@ -14,17 +14,21 @@ package frc.robot;
  */
 public final class Constants {
 
+    // CAN IDs for all motors on robot
     public final static int DRIVETRAIN_RIGHT_FRONT_MOTOR = 1;
     public final static int DRIVETRAIN_RIGHT_BACK_MOTOR = 2;
     public final static int DRIVETRAIN_LEFT_FRONT_MOTOR = 3;
     public final static int DRIVETRAIN_LEFT_BACK_MOTOR = 4;
-    public final static int SHOOTER_MOTOR = 5;
-    
-    public final static int INTAKE_MOTOR = 5;
+    public final static int SHOOTER_LEAD_MOTOR = 5;
+    public final static int SHOOTER_SLAVE_MOTOR = 6;
+    public final static int INTAKE_LEAD_MOTOR = 7;
+    public final static int INTAKE_FOLLOWER_MOTOR = 8;
+
+    public final static boolean IS_INVERTED = true;
 
     public final static int DRIVER_STICK_PORT = 0;
 
-    // Joystick Ids    
+    // Joystick IDs    
     public final static int JOYSTICK_LEFT_X = 0;
     public final static int JOYSTICK_LEFT_Y = 1;
     public final static int JOYSTICK_RIGHT_X = 2;
@@ -49,8 +53,7 @@ public final class Constants {
     public final static double LOG_EXPIRATION_IN_HRS = 48;
 
     // Distance calculations
-
-    // Robot height and turret angle are PLACEHOLDERS, NOT ACCURATE
+    // Robot height and turret angle are ESTIMATES, NOT ACCURATE
     public final static double ROBOT_HEIGHT_IN_CM = 144.78;
     public final static double HUB_HEIGHT_IN_CM = 264;
     public final static double TURRET_ANGLE_IN_DEGREES = 30; 

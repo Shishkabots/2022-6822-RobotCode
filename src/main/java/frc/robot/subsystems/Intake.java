@@ -6,53 +6,31 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
 
-  private final TalonSRX INTAKE_MOTOR; //use srx or fx for the moter
-  //https://binnur.gitbooks.io/spartronics-developers-handbook/content/commands_subsystems/
-  private final TalonSRX intakeSlave;
-
-  private final WPI_TalonFX m_leftFrontMotor;
-  private final WPI_TalonFX m_leftBackMotor;
-
-  private final WPI_TalonFX m_rightFrontMotor;
-  private final WPI_TalonFX m_rightBackMotor;
-
-  private SpeedControllerGroup m_leftSide;
-  private final SpeedControllerGroup m_rightSide;
-
-  private final DifferentialDrive m_robotDrive;
+  // Use Talon SRX or FX for the motor
+  private final TalonSRX m_IntakeMotor;
+  private final TalonSRX m_intakeFollower;
 
   public Intake(){
-    INTAKE_MOTOR = new TalonSRX(Constants.INTAKE_MOTOR);
-    intakeSlave = new TalonSRX(6);
+    m_IntakeMotor = new TalonSRX(Constants.INTAKE_LEAD_MOTOR);
+    m_intakeFollower = new TalonSRX(Constants.INTAKE_FOLLOWER_MOTOR);
 
-    m_leftFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_LEFT_FRONT_MOTOR);
-    m_leftBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_LEFT_BACK_MOTOR);
-    m_rightFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
-    m_rightBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
-    
-    m_leftSide = new SpeedControllerGroup(m_leftFrontMotor, m_leftBackMotor);
-    m_rightSide = new SpeedControllerGroup(m_rightFrontMotor, m_rightBackMotor);
-
-    m_robotDrive = new DifferentialDrive(m_leftSide, m_rightSide); 
-
-    intakeSlave.setInverted(true);
-    intakeSlave.follow(INTAKE_MOTOR);
+    // Inverts direction of slave motor since the lead and slave will face towards each other
+    m_intakeFollower.setInverted(Constants.IS_INVERTED);
+    m_intakeFollower.follow(m_IntakeMotor);
   }
 
-  public void setIntake(double power){
-    INTAKE_MOTOR.set(ControlMode.PercentOutput, power);
+  // Sets control mode to velocity such that motor runs at a specified velocity
+  public void setIntake(double velocity){
+    m_IntakeMotor.set(ControlMode.Velocity, velocity);
   }
 
   public double intakeVelocity(){
-    return INTAKE_MOTOR.getSelectedSensorVelocity();
+    return m_IntakeMotor.getSelectedSensorVelocity();
   }
 
   @Override

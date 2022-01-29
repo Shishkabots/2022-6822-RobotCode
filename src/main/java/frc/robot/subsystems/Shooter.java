@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
     * Initializes shooter motor.
     */
     public Shooter() {
-        m_shootMotor = new WPI_TalonFX(Constants.SHOOTER_MOTOR); //test motor, change for eventual shooter.
+        m_shootMotor = new WPI_TalonFX(Constants.SHOOTER_LEAD_MOTOR); //test motor, change for eventual shooter.
     }
 
     @Override
