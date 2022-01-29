@@ -20,7 +20,7 @@ public final class Constants {
     public final static int DRIVETRAIN_LEFT_FRONT_MOTOR = 3;
     public final static int DRIVETRAIN_LEFT_BACK_MOTOR = 4;
     public final static int SHOOTER_LEAD_MOTOR = 5;
-    public final static int SHOOTER_SLAVE_MOTOR = 6;
+    public final static int SHOOTER_FOLLOWER_MOTOR = 6;
     public final static int INTAKE_LEAD_MOTOR = 7;
     public final static int INTAKE_FOLLOWER_MOTOR = 8;
 

@@ -59,8 +59,6 @@ public class DriveTrain extends SubsystemBase {
     m_rightSide = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
 
     m_robotDrive = new DifferentialDrive(m_leftSide, m_rightSide); 
-    
-    
   }
 
   @Override
