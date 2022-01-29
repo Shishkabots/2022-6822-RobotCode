@@ -12,25 +12,25 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase {
 
   // Use Talon SRX or FX for the motor
-  private final TalonSRX m_IntakeMotor;
+  private final TalonSRX m_intakeMotor;
   private final TalonSRX m_intakeFollower;
 
   public Intake(){
-    m_IntakeMotor = new TalonSRX(Constants.INTAKE_LEAD_MOTOR);
+    m_intakeMotor = new TalonSRX(Constants.INTAKE_LEAD_MOTOR);
     m_intakeFollower = new TalonSRX(Constants.INTAKE_FOLLOWER_MOTOR);
 
-    // Inverts direction of slave motor since the lead and slave will face towards each other
+    // Inverts direction of follower motor since the lead and follower will face towards each other
     m_intakeFollower.setInverted(Constants.IS_INVERTED);
-    m_intakeFollower.follow(m_IntakeMotor);
+    m_intakeFollower.follow(m_intakeMotor);
   }
 
   // Sets control mode to velocity such that motor runs at a specified velocity
   public void setIntake(double velocity){
-    m_IntakeMotor.set(ControlMode.Velocity, velocity);
+    m_intakeMotor.set(ControlMode.Velocity, velocity);
   }
 
   public double intakeVelocity(){
-    return m_IntakeMotor.getSelectedSensorVelocity();
+    return m_intakeMotor.getSelectedSensorVelocity();
   }
 
   @Override
