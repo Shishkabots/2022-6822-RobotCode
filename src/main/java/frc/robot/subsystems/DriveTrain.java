@@ -49,6 +49,10 @@ public class DriveTrain extends SubsystemBase {
     m_rightFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
     m_rightBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
 
+    /**
+     * Inverts all motors based on value of the constant, which is currently true.
+     * Currently the robot goes battery-first which is dangerous, so this will flip that direction.
+     */
     m_leftFrontMotor.setInverted(Constants.IS_INVERTED);
     m_leftBackMotor.setInverted(Constants.IS_INVERTED);
     m_rightFrontMotor.setInverted(Constants.IS_INVERTED);

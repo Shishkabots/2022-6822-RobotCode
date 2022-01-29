@@ -88,7 +88,9 @@ public class RobotContainer {
     // Activates shooter upon holding left trigger, can modify depending on how we want to activate shooter.
     new JoystickButton(m_driverStick, Constants.JOYSTICK_LEFTTRIGGER).whileHeld(new Shoot(m_shooter));
     
-    // While holding the left bumper, the intake will turn on and run at the desired speed from SmartDash. TO BE TESTED AND FLUSHED OUT ON SMARTDASH IN MN
+    /**
+     * While holding the left bumper, the intake will turn on and run at the desired speed from SmartDash.
+     */
     new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTBUMPER).whileHeld(
       new StartEndCommand(
         () -> m_intake.setIntake(SmartDashboard.getNumber("Set Intake Velocity", 0.0)),
