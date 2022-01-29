@@ -19,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.Constants;
 import frc.robot.logging.RobotLogger;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -28,9 +29,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter extends SubsystemBase {
 
     private final WPI_TalonFX m_shootMotor;
-    private ShooterState shooterState = ShooterState.OFF;
-    private final RobotLogger logger = RobotContainer.getLogger();
-    private double targetSpeed;
+    private ShooterState m_shooterState;
+    private final RobotLogger m_logger;
+    private boolean m_isReady;
+    private Elevator m_elevator;
 
     public enum ShooterState {
         OFF, IDLE, TARGETING, FIRE
@@ -39,14 +41,17 @@ public class Shooter extends SubsystemBase {
     * Initializes shooter motor.
     */
     public Shooter() {
-        m_shootMotor = new WPI_TalonFX(Constants.SHOOTER_LEAD_MOTOR); //test motor, change for eventual shooter.
+        // Assuming a Talon FX motor as of now
+        m_shootMotor = new WPI_TalonFX(Constants.SHOOTER_LEAD_MOTOR); 
+        m_shooterState = ShooterState.IDLE;
+        m_isReady = false;
+        m_logger = RobotContainer.getLogger();
+        m_elevator = new Elevator();
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-        //run through cases, will either target or fire when ready
-
+        // Called once per scheduler run (i.e., every 20 ms)
         checkState();
     }
 
@@ -57,48 +62,98 @@ public class Shooter extends SubsystemBase {
     }
 
     public void checkState() {
-        switch(shooterState) {
+        switch(m_shooterState) {
             case OFF:
                 // Turns off shooter   <-- code goes here
-                logger.logInfo("Shooter powered off.");
+                m_logger.logInfo("Shooter powered off.");
                 SmartDashboard.putString("Shooter state", "OFF");
                 break;
             case IDLE:
                SmartDashboard.putString("Shooter state", "IDLE");
+               m_isReady = false;
                break;
             case TARGETING:
-                logger.logInfo("Targeting sequence initiated.");
+                m_logger.logInfo("Targeting sequence initiated.");
                 SmartDashboard.putString("Shooter state", "TARGETING");
 
-                // Targets goal, code still to be added. Do we spin up motor here or fire?
-                shooterState = ShooterState.FIRE;
-                logger.logInfo("Targeting complete, ready to begin firing sequence.");
+                /**
+                 * TODO:
+                 * 1. Use turret motor to locate reflective tape
+                 * 2. Position crosshair at center of goal
+                 * 3. Signal that robot is ready to fire
+                 * 4. If 1-3 successful, set shooter state to fire.
+                 */
+                m_shooterState = ShooterState.FIRE;
+                m_logger.logInfo("Targeting complete, ready to begin firing sequence.");
                 break;
             case FIRE:
-                logger.logInfo("Firing sequence initiated.");
+                m_logger.logInfo("Firing sequence initiated.");
                 SmartDashboard.putString("Shooter state", "FIRE");
+
+                /**
+                 * 1. Get the target speed calculated earlier 
+                 *    (written to SmartDashboard in TargetLocate)
+                 * 2. Sets the flyWheel's motor's speed
+                 */
+                double targetFlywheelSpeed = SmartDashboard.getNumber("Target flywheel speed", 0.0);
+                setMotorSpeed(targetFlywheelSpeed);
                 
-                // Gets target RPM number calculated in TargetLocate.java and sets motor to that speed.
-                targetSpeed = SmartDashboard.getNumber("Target flywheel speed", 0.0);
-                setSpeed(targetSpeed);
-                logger.logInfo("Firing sequence terminated.");
+                /**
+                 * 1. Wait till shooter motor hits the target speed
+                 */
+                if (waitForTargetFlywheelSpeedReach(targetFlywheelSpeed)) {
+                    m_isReady = true;
+                    m_elevator.runElevator(m_isReady);
+                }
+                m_logger.logInfo("Firing sequence terminated.");
                 break;
         }
     }
 
     public void setFire(boolean ready) {
         if (ready) {
-            shooterState = ShooterState.FIRE;
+            m_shooterState = ShooterState.FIRE;
             checkState();
         }
     }
-
-    public void setSpeed(double speed) {
+    /**
+     * @param speed
+     * Sets speed of motor
+     */
+    public void setMotorSpeed(double speed) {
         m_shootMotor.set(speed);
     }
 
-    // Gets shooter state
+    /**
+     * Returns speed of motor
+     * TODO: Convert motorSpeed to scaled value between -1.0 and 1.0.
+     */
+    public double getMotorSpeed() {
+        return m_shootMotor.get();
+    }
+
+    /**
+     * @return true if the shooter is ready to receive the ball from elevator
+     *         false otherwise    
+     */ 
+    public boolean isReady() {
+        return m_isReady;
+    }
+
+    /*
+     * Accessor: Gets shooter state
+     */ 
     public Shooter.ShooterState getShooterState() {
-        return shooterState;
+        return m_shooterState;
+    }
+
+    /**
+     * TODO: Implement logic for checking target speed is reached
+     *       A poor man's exact value check right now
+     * @param targetSpeed
+     * @return
+     */
+    private boolean waitForTargetFlywheelSpeedReach(double targetSpeed) {
+        return getMotorSpeed() == targetSpeed;
     }
 }
