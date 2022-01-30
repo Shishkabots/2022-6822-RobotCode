@@ -15,7 +15,8 @@ package frc.robot.subsystems;
 //import frc.robot.commands.*;
 //import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants;
 import frc.robot.logging.RobotLogger;
 import frc.robot.RobotContainer;
@@ -28,21 +29,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
    */
 public class Shooter extends SubsystemBase {
 
-    private final WPI_TalonFX m_shootMotor;
+    private final VictorSPX m_shooterLeadMotor;
+    private final VictorSPX m_shooterFollowerMotor;
     private ShooterState m_shooterState;
     private final RobotLogger m_logger;
     private boolean m_isReady;
     private Elevator m_elevator;
 
     public enum ShooterState {
-        OFF, IDLE, TARGETING, FIRE
+        IDLE, TARGETING, FIRE
     }
     /**
     * Initializes shooter motor.
     */
     public Shooter() {
-        // Assuming a Talon FX motor as of now
-        m_shootMotor = new WPI_TalonFX(Constants.SHOOTER_LEAD_MOTOR); 
+        // Assuming a Victor SPX motor as of now
+        m_shooterLeadMotor = new VictorSPX(Constants.SHOOTER_LEAD_MOTOR);
+        m_shooterFollowerMotor = new VictorSPX(Constants.SHOOTER_FOLLOWER_MOTOR);
+
+        // Inverts direction of follower motor since the lead and follower will face towards each other
+        m_shooterFollowerMotor.setInverted(Constants.IS_INVERTED);
+        m_shooterFollowerMotor.follow(m_shooterLeadMotor);
+
         m_shooterState = ShooterState.IDLE;
         m_isReady = false;
         m_logger = RobotContainer.getLogger();
@@ -63,15 +71,11 @@ public class Shooter extends SubsystemBase {
 
     public void checkState() {
         switch(m_shooterState) {
-            case OFF:
-                // Turns off shooter   <-- code goes here
-                m_logger.logInfo("Shooter powered off.");
-                SmartDashboard.putString("Shooter state", "OFF");
-                break;
             case IDLE:
                SmartDashboard.putString("Shooter state", "IDLE");
                m_isReady = false;
                break;
+
             case TARGETING:
                 m_logger.logInfo("Targeting sequence initiated.");
                 SmartDashboard.putString("Shooter state", "TARGETING");
@@ -86,6 +90,7 @@ public class Shooter extends SubsystemBase {
                 m_shooterState = ShooterState.FIRE;
                 m_logger.logInfo("Targeting complete, ready to begin firing sequence.");
                 break;
+
             case FIRE:
                 m_logger.logInfo("Firing sequence initiated.");
                 SmartDashboard.putString("Shooter state", "FIRE");
@@ -121,7 +126,7 @@ public class Shooter extends SubsystemBase {
      * Sets speed of motor
      */
     public void setMotorSpeed(double speed) {
-        m_shootMotor.set(speed);
+        m_shooterLeadMotor.set(ControlMode.Velocity, speed);
     }
 
     /**
@@ -129,7 +134,7 @@ public class Shooter extends SubsystemBase {
      * TODO: Convert motorSpeed to scaled value between -1.0 and 1.0.
      */
     public double getMotorSpeed() {
-        return m_shootMotor.get();
+        return m_shooterLeadMotor.getSelectedSensorVelocity();
     }
 
     /**
