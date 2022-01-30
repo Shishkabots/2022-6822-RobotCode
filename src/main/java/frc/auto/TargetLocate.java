@@ -6,39 +6,25 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.vision.VisionConstants;
+import frc.robot.vision.LimelightCamera;
 import java.lang.Math;
 
 
 public class TargetLocate extends CommandBase {
 
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tx = table.getEntry("tx");
-    NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry ta = table.getEntry("ta");
-
-    private double x, y, area;
-
+    LimelightCamera m_limelight;
     private double distanceToHub, targetSpeed;
+
+    private TargetLocate() {
+        m_limelight = new LimelightCamera();
+    }
 
     // Update smart dashboard with current offset values
     private void updateSmartDash() {
-        SmartDashboard.putNumber("LimelightX Offset", x);
-        SmartDashboard.putNumber("LimelightY Offset", y);
-        SmartDashboard.putNumber("LimelightArea Offset", area);
-    }
-
-    // Return x offset from crosshair
-    public double getX() {
-        return x;
-    }
-
-    // Return y offset from crosshair
-    public double getY() {
-        return y;
-    }
-    // Return area offset
-    public double getA(){
-        return area;
+        SmartDashboard.putNumber("LimelightX Offset", m_limelight.getTx());
+        SmartDashboard.putNumber("LimelightY Offset", m_limelight.getTy());
+        SmartDashboard.putNumber("LimelightArea Offset", m_limelight.getTa());
     }
 
     /**
@@ -67,10 +53,6 @@ public class TargetLocate extends CommandBase {
 
     // Periodically run approximately every 20ms.
     public void execute() {
-        x = tx.getDouble(0.0);
-        y = ty.getDouble(0.0);
-        area = ta.getDouble(0.0);
-
         // Updating offset metrics and area
         updateSmartDash();
 
