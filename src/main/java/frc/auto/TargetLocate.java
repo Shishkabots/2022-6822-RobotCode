@@ -3,9 +3,6 @@ package frc.auto;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.vision.VisionConstants;
 import frc.robot.vision.LimelightCamera;
 import java.lang.Math;
@@ -13,7 +10,7 @@ import java.lang.Math;
 
 public class TargetLocate extends CommandBase {
 
-    LimelightCamera m_limelight;
+    private LimelightCamera m_limelight;
     private double distanceToHub, targetSpeed;
 
     private TargetLocate() {
