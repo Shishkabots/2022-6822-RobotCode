@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import java.lang.Math;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -60,4 +61,18 @@ public final class Constants {
     public final static double HUB_HEIGHT_IN_CM = 264;
     public final static double TURRET_ANGLE_IN_DEGREES = 30; 
     public final static double GRAVITY_M_PER_SEC_SQUARED = 9.81;
+
+    /**
+     * Utilities, such as encoder, and various conversions.
+     * WHEEL_CIRCUMFERENCE_METERS calculation to be moved to another class.
+     * ENCODER_UNITS_PER_REVOLUTION is just a placeholder.
+     * GEARBOX_RATIO_OVER_ONE is a plcaeholder as well, to be finalized.
+     * Sensor velocity is returned over 100ms, so SENSOR_TIME_IN_SECONDS shows it in seconds.
+     */
+
+    public final static double WHEEL_DIAMETER_INCHES = 6;
+    public final static double ENCODER_UNITS_PER_REVOLUTION = 2048;
+    public final static double GEARBOX_RATIO_OVER_ONE = 9;
+    public final static double SENSOR_TIME_IN_SECONDS = 0.1;
+    public final static double METER_TO_INCHES = 39.37;
 }
