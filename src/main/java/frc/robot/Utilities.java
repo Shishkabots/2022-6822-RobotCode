@@ -7,15 +7,15 @@ public class Utilities {
     public static double INCHES_TO_METERS = 39.37d;
 
     // Unit conversions
-    public double computeCircumferenceFromDiameter(double diameter) {
+    public static double computeCircumferenceFromDiameter(double diameter) {
         return (Math.PI * convertInchesToMeters(diameter));        
     }
 
-    public double convertInchesToMeters(double value) {
+    public static double convertInchesToMeters(double value) {
         return (value / Constants.METER_TO_INCHES);
     }
 
-    public double convertMetersToInches(double value) {
+    public static double convertMetersToInches(double value) {
         return (value * Constants.METER_TO_INCHES);
     }
 
@@ -24,7 +24,7 @@ public class Utilities {
     /**
      * Computes relative position from origin(known-position) for any number of motors passed in
      */
-    public double getEncoderPositionInMeters(WPI_TalonFX... motors) {
+    public static double getEncoderPositionInMeters(WPI_TalonFX... motors) {
         double sumOfPositions = 0.0d;
         int count = 0;
 
@@ -39,7 +39,7 @@ public class Utilities {
     /**
      * Computes velocity of motors passed in by averaging them to get the closest value.
      */
-    public double getEncoderVelocityInMetersPerSecond(WPI_TalonFX... motors) {
+    public static double getEncoderVelocityInMetersPerSecond(WPI_TalonFX... motors) {
         double sumOfVelocities = 0.0d;
         int count = 0;
 
@@ -52,9 +52,19 @@ public class Utilities {
     }
 
     /**
+     * Sets motor encoder back to 0 for all Talon FXes passed in.
+     * @param motors
+     */
+    public static void setMotorEncoderToZero(WPI_TalonFX... motors) {
+        for (WPI_TalonFX motor : motors) {
+            motor.setSelectedSensorPosition(0);
+        }
+    }
+
+    /**
      * Convert from controller units to meters
      */
-    public double controllerUnitsToMeters(double encoderUnits) {
+    public static double controllerUnitsToMeters(double encoderUnits) {
         final double encoderUnitsRealized = (Constants.ENCODER_UNITS_PER_REVOLUTION * Constants.GEARBOX_RATIO_OVER_ONE);
         return (encoderUnits * computeCircumferenceFromDiameter(Constants.WHEEL_DIAMETER_INCHES)) / encoderUnitsRealized;
     }
@@ -62,7 +72,7 @@ public class Utilities {
     /**
      * Obtain controller's velocity in meters per second
      */
-    public double controllerVelocityToMetersPerSecond(double encoderUnits) {
+    public static double controllerVelocityToMetersPerSecond(double encoderUnits) {
         return controllerUnitsToMeters(encoderUnits) / Constants.SENSOR_TIME_IN_SECONDS;
     }
 }

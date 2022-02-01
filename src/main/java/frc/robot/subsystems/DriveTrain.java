@@ -8,7 +8,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Utilities;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends SubsystemBase {
 
@@ -49,12 +51,15 @@ public class DriveTrain extends SubsystemBase {
     m_rightFrontMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_FRONT_MOTOR);
     m_rightBackMotor = new WPI_TalonFX(Constants.DRIVETRAIN_RIGHT_BACK_MOTOR);
 
+    // Sets all internal encoders to 0, so that we can increase encoder values after this point and get accurate distance values.
+    Utilities.setMotorEncoderToZero(m_leftFrontMotor, m_leftBackMotor, m_rightFrontMotor, m_rightBackMotor);
+
     /**
      * Inverts all motors based on value of the constant, which is currently true.
      * Currently the robot goes battery-first which is dangerous, so this will flip that direction.
      */
-    m_leftFrontMotor.setInverted(Constants.IS_INVERTED);
-    m_leftBackMotor.setInverted(Constants.IS_INVERTED);
+    //m_leftFrontMotor.setInverted(Constants.IS_INVERTED);
+    //m_leftBackMotor.setInverted(Constants.IS_INVERTED);
     m_rightFrontMotor.setInverted(Constants.IS_INVERTED);
     m_rightBackMotor.setInverted(Constants.IS_INVERTED);
 
@@ -68,6 +73,9 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("Robot position", Utilities.getEncoderPositionInMeters(m_leftBackMotor, m_leftFrontMotor, m_rightBackMotor, m_rightFrontMotor));
+    SmartDashboard.putNumber("Robot velocity", Utilities.getEncoderVelocityInMetersPerSecond(m_leftBackMotor, m_leftFrontMotor, m_rightBackMotor, m_rightFrontMotor));
   }
 
   @Override

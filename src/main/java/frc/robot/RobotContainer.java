@@ -14,6 +14,7 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.CurvatureDrive;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +26,7 @@ import java.util.logging.Level;
 import java.io.IOException;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.auto.AutoCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -40,7 +42,7 @@ public class RobotContainer {
     CURVATURE_DRIVE
   }
 
-  private Command m_autoCommand;
+  private AutoCommand m_autoCommand;
   private Command m_teleopCommand;
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Shooter m_shooter = new Shooter();
@@ -48,6 +50,7 @@ public class RobotContainer {
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
   private static RobotLogger logger;
   private final Intake m_intake = new Intake();
+  private final Elevator m_elevator = new Elevator();
 
   // True makes it turn-in-place, false makes it do constant-curvature motion.
   private final BooleanSupplier m_isQuickTurn = () -> false; 
@@ -104,6 +107,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
+    m_autoCommand = new AutoCommand(m_drivetrain, m_intake, m_elevator, m_shooter);
     return m_autoCommand;
   }
 

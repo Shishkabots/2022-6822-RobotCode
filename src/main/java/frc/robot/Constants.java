@@ -72,6 +72,7 @@ public final class Constants {
 
     public final static double WHEEL_DIAMETER_INCHES = 6;
     public final static double ENCODER_UNITS_PER_REVOLUTION = 2048;
+    // # of output teeth / # of input teeth
     public final static double GEARBOX_RATIO_OVER_ONE = 9;
     public final static double SENSOR_TIME_IN_SECONDS = 0.1;
     public final static double METER_TO_INCHES = 39.37;
