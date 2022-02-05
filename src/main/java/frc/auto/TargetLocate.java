@@ -19,9 +19,9 @@ public class TargetLocate extends CommandBase {
 
     // Update smart dashboard with current offset values
     private void updateSmartDash() {
-        SmartDashboard.putNumber("LimelightX Offset", m_limelight.getTx());
-        SmartDashboard.putNumber("LimelightY Offset", m_limelight.getTy());
-        SmartDashboard.putNumber("LimelightArea Offset", m_limelight.getTa());
+        SmartDashboard.putNumber(Constants.LIMELIGHT_X_OFFSET, m_limelight.getTx());
+        SmartDashboard.putNumber(Constants.LIMELIGHT_Y_OFFSET, m_limelight.getTy());
+        SmartDashboard.putNumber(Constants.LIMELIGHT_AREA_OFFSET, m_limelight.getTa());
     }
 
     /**

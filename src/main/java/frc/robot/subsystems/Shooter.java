@@ -72,13 +72,13 @@ public class Shooter extends SubsystemBase {
     public void checkState() {
         switch(m_shooterState) {
             case IDLE:
-               SmartDashboard.putString("Shooter state", "IDLE");
+               SmartDashboard.putString(Constants.SHOOTER_STATE, ShooterState.IDLE.toString());
                m_isReady = false;
                break;
 
             case TARGETING:
                 m_logger.logInfo("Targeting sequence initiated.");
-                SmartDashboard.putString("Shooter state", "TARGETING");
+                SmartDashboard.putString(Constants.SHOOTER_STATE, ShooterState.TARGETING.toString());
 
                 /**
                  * TODO:
@@ -93,14 +93,14 @@ public class Shooter extends SubsystemBase {
 
             case FIRE:
                 m_logger.logInfo("Firing sequence initiated.");
-                SmartDashboard.putString("Shooter state", "FIRE");
+                SmartDashboard.putString(Constants.SHOOTER_STATE, ShooterState.FIRE.toString());
 
                 /**
                  * 1. Get the target speed calculated earlier 
                  *    (written to SmartDashboard in TargetLocate)
                  * 2. Sets the flyWheel's motor's speed
                  */
-                double targetFlywheelSpeed = SmartDashboard.getNumber("Target flywheel speed", 0.0);
+                double targetFlywheelSpeed = SmartDashboard.getNumber(Constants.SMARTDASHBOARD_KEY_TARGET_FLYWHEEL_SPEED, Constants.FLYWHEEL_DEFAULT_SPEED);
                 setMotorSpeed(targetFlywheelSpeed);
                 
                 /**
