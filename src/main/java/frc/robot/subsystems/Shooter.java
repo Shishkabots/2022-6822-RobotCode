@@ -72,13 +72,13 @@ public class Shooter extends SubsystemBase {
     public void checkState() {
         switch(m_shooterState) {
             case IDLE:
-               SmartDashboard.putString(Constants.SHOOTER_STATE, ShooterState.IDLE.toString());
+               SmartDashboard.putString(Constants.SHOOTER_STATE_KEY, ShooterState.IDLE.toString());
                m_isReady = false;
                break;
 
             case TARGETING:
                 m_logger.logInfo("Targeting sequence initiated.");
-                SmartDashboard.putString(Constants.SHOOTER_STATE, ShooterState.TARGETING.toString());
+                SmartDashboard.putString(Constants.SHOOTER_STATE_KEY, ShooterState.TARGETING.toString());
 
                 /**
                  * TODO:
@@ -93,7 +93,7 @@ public class Shooter extends SubsystemBase {
 
             case FIRE:
                 m_logger.logInfo("Firing sequence initiated.");
-                SmartDashboard.putString(Constants.SHOOTER_STATE, ShooterState.FIRE.toString());
+                SmartDashboard.putString(Constants.SHOOTER_STATE_KEY, ShooterState.FIRE.toString());
 
                 /**
                  * 1. Get the target speed calculated earlier 
