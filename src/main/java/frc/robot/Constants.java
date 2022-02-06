@@ -75,4 +75,13 @@ public final class Constants {
     public final static double GEARBOX_RATIO_OVER_ONE = 9;
     public final static double SENSOR_TIME_IN_SECONDS = 0.1;
     public final static double METER_TO_INCHES = 39.37;
+
+    public final static String LIMELIGHT_X_OFFSET = "LimelightX Offset";
+    public final static String LIMELIGHT_Y_OFFSET = "LimelightY Offset";
+    public final static String LIMELIGHT_AREA_OFFSET = "LimelightArea Offset";
+
+    public final static String SHOOTER_STATE_KEY = "Shooter state";
+
+    public final static String SMARTDASHBOARD_KEY_TARGET_FLYWHEEL_SPEED = "Target flywheel speed";
+    public final static double FLYWHEEL_DEFAULT_SPEED = 0.0;
 }
