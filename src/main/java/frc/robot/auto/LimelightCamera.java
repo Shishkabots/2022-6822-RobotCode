@@ -82,7 +82,7 @@ public class LimelightCamera {
     }
 
     // Set LED mode.
-    public void setLEDMode(VisionConstants.ledMode lMode) {
+    public void setLedMode(VisionConstants.ledMode lMode) {
         m_table.getEntry("ledMode").setNumber(lMode.value);
     }
 } 

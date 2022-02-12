@@ -15,7 +15,7 @@ public class CameraSubsystem {
         m_limelightCamera.setCamMode(camMode.DRIVER_CAMERA_MODE);
     }
 
-    public void setLEDToOff() {
-        m_limelightCamera.setLEDMode(ledMode.FORCE_OFF);
+    public void setLedToOff() {
+        m_limelightCamera.setLedMode(ledMode.FORCE_OFF);
     }
 }
