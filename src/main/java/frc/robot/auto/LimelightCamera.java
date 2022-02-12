@@ -76,8 +76,13 @@ public class LimelightCamera {
         return m_table.getEntry("getpipe").getDouble(0.0d);
     }
 
-    // Set camera mode to driver cam.
+    // Set camera mode.
     public void setCamMode(VisionConstants.camMode cMode) {
         m_table.getEntry("camMode").setNumber(cMode.value);
+    }
+
+    // Set LED mode.
+    public void setLEDMode(VisionConstants.ledMode lMode) {
+        m_table.getEntry("ledMode").setNumber(lMode.value);
     }
 } 
