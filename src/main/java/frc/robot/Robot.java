@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.logging.RobotLogger;
+import frc.robot.subsystems.CameraSubsystem;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -24,6 +25,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private final RobotLogger logger = RobotContainer.getLogger();
+  private CameraSubsystem cam1;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,12 +33,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
+    // Log that robot has been initialized
+    logger.logInfo("Robot initialized.");
+
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_chooser.setDefaultOption("Arcade Drive", "Arcade Drive");
     m_chooser.addOption("Tank Drive", "Tank Drive");
     SmartDashboard.putData("choices", m_chooser);
+
+    // Sets Limelight to driver camera, turn off green LEDs.
+    cam1 = new CameraSubsystem();
+    cam1.setCamToDriverMode();
+    cam1.setLedToOff();
   }
 
   /**

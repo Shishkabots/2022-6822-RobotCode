@@ -1,4 +1,4 @@
-package frc.robot.vision;
+package frc.robot.auto;
 
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,7 +22,7 @@ public class LimelightCamera {
     }
 
     // Return whether limelight has any valid targets (0 or 1)
-    public double getTv() {
+    public double getTz() {
         return m_table.getEntry("tz").getDouble(0.0d);
     }
     
@@ -75,4 +75,14 @@ public class LimelightCamera {
     public double getPipe() {
         return m_table.getEntry("getpipe").getDouble(0.0d);
     }
-}
+
+    // Set camera mode to driver cam.
+    public void setCamMode(VisionConstants.camMode cMode) {
+        m_table.getEntry("camMode").setNumber(cMode.value);
+    }
+
+    // Set LED mode.
+    public void setLedMode(VisionConstants.ledMode lMode) {
+        m_table.getEntry("ledMode").setNumber(lMode.value);
+    }
+}  
