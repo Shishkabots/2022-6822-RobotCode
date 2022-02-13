@@ -10,7 +10,10 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 import frc.robot.Constants;
 
-
+/**
+ * ColorSensor Subsystem
+ * Some code implemented from REV's Example Code (https://github.com/REVrobotics/Color-Sensor-v3-Examples/blob/master/Java/Color%20Match/src/main/java/frc/robot/Robot.java)
+ */
 public class ColorSensor extends SubsystemBase {
     private ColorSensorV3 m_colorSensor;
     private RobotLogger m_logger;
