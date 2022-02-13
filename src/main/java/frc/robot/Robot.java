@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.logging.RobotLogger;
 import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.ColorSensor;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -26,6 +28,8 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private final RobotLogger logger = RobotContainer.getLogger();
   private CameraSubsystem cam1;
+  private ColorSensor colorSensor;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -48,6 +52,8 @@ public class Robot extends TimedRobot {
     cam1 = new CameraSubsystem();
     cam1.setCamToDriverMode();
     cam1.setLedToOff();
+
+    colorSensor = new ColorSensor();
   }
 
   /**
