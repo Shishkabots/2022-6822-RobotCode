@@ -41,23 +41,30 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    try {
+        // Log that robot has been initialized
+        logger.logInfo("Robot initialized.");
 
-    // Log that robot has been initialized
-    logger.logInfo("Robot initialized.");
+        // Instantiate our RobotContainer. This will perform all our button bindings,
+        // and put our
+        // autonomous chooser on the dashboard.
+        m_robotContainer = new RobotContainer();
+        m_chooser.setDefaultOption("Arcade Drive", "Arcade Drive");
+        m_chooser.addOption("Tank Drive", "Tank Drive");
+        SmartDashboard.putData("choices", m_chooser);
 
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
-    m_chooser.setDefaultOption("Arcade Drive", "Arcade Drive");
-    m_chooser.addOption("Tank Drive", "Tank Drive");
-    SmartDashboard.putData("choices", m_chooser);
+        // Sets Limelight to driver camera, turn off green LEDs.
+        cam1 = new CameraSubsystem();
+        cam1.setCamToDriverMode();
+        cam1.setLedToOff();
 
-    // Sets Limelight to driver camera, turn off green LEDs.
-    cam1 = new CameraSubsystem();
-    cam1.setCamToDriverMode();
-    cam1.setLedToOff();
+        colorSensor = new ColorSensor();
 
-    colorSensor = new ColorSensor();
+        m_ballTracker = new BallTracker();
+    } catch (Exception e) {
+        logger.logError("Runtime Exception in robotInit" + e);
+        throw e;
+    }
   }
 
   /**
@@ -73,7 +80,12 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
+    try {
+      CommandScheduler.getInstance().run();
+    } catch (Exception e) {
+      logger.logError("Runtime Exception in robotPeriodic" + e);
+      throw e;
+    }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -86,47 +98,85 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    try {
+      logger.logInfo("Autonomous initialized");
+      m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+      // schedule the autonomous command (example)
+      if (m_autonomousCommand != null) {
+        m_autonomousCommand.schedule();
+      }
+    } catch (Exception e) {
+      logger.logError("Runtime Exception in autonomousInit" + e);
+      throw e;
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if ((m_logCounter / 10.0) % 1 == 0) {
-      logger.logInfo(m_ballTracker.getBallCoordinates().toString());
+    try {
+      if ((m_logCounter / 100.0) % 1 == 0) {
+        if (m_ballTracker.chooseMostConfidentBall() != null) {
+          logger.logInfo(m_ballTracker.chooseMostConfidentBall().toString());
+        }
+        else {
+          logger.logInfo("No ball located!");
+        }
+      }
+    } catch (Exception e) {
+        logger.logError("Runtime Exception in autonomousPeriodic" + e);
+        throw e;
     }
   }
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    try {
+      logger.logInfo("Teleop init started");
+      // This makes sure that the autonomous stops running when
+      // teleop starts running. If you want the autonomous to
+      // continue until interrupted by another command, remove
+      // this line or comment it out.
+      if (m_autonomousCommand != null) {
+        m_autonomousCommand.cancel();
+      }
+      m_driveMode = m_chooser.getSelected();
+      logger.logInfo("Drive Mode: " + m_driveMode);
+    } catch (Exception e) {
+        logger.logError("Runtime Exception in teleopInit" + e);
+        throw e;
     }
-    m_driveMode = m_chooser.getSelected();
-    logger.logInfo("Drive Mode: " + m_driveMode);
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if ((m_logCounter / 10.0) % 1 == 0) {
-      logger.logInfo(m_ballTracker.getBallCoordinates().toString());
+    try {
+      logger.logInfo("Teleop periodic started");
+      if ((m_logCounter / 100.0) % 1 == 0) {
+        if (m_ballTracker.chooseMostConfidentBall() != null) {
+          logger.logInfo(m_ballTracker.chooseMostConfidentBall().toString());
+        }
+        else {
+          logger.logInfo("No ball located!");
+        }
+      }
+    } catch (Exception e) {
+        logger.logError("Runtime Exception in teleopPeriodic" + e);
+        throw e;
     }
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
+    try {
+      CommandScheduler.getInstance().cancelAll();
+    } catch (Exception e) {
+        logger.logError("Runtime Exception in testInit" + e);
+        throw e;
+    }
   }
 
   /** This function is called periodically during test mode. */

@@ -55,4 +55,16 @@ public class BallCoordinates {
     public void setConfidence(final double confidence) {
         m_confidence = confidence;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("label = " + m_label + ", ");
+        sb.append("ymin = " + m_ymin + ", ");
+        sb.append("xmin = " + m_xmin + ", ");
+        sb.append("ymax = " + m_ymax + ", ");
+        sb.append("xmax = " + m_xmax + ", ");
+        sb.append("confidence = " + m_confidence + ".");
+        return sb.toString();
+    }
 }

@@ -27,26 +27,31 @@ public class BallTracker {
      * Returns list of ALL detected balls, and their respective labels, coordinates, and confidence levels
      * @return
      */
-    public List<BallCoordinates> getBallCoordinates() {
+    private List<BallCoordinates> getBallCoordinates() {
 
         // Gets detections from the NetworkTable "ML/detections" where JSON strings are created.
-        NetworkTableEntry networkTableEntryAsString = m_ballDataTable.getEntry("detections");
+        String networkTableEntryAsString = m_ballDataTable.getEntry("detections").getString(null);
 
+        if (networkTableEntryAsString == null) {
+            logger.logError("Image Coordinate Table entry is null");
+            return null;
+        }
         JSONArray jsonArray = new JSONArray(networkTableEntryAsString);
 
         List<BallCoordinates> ballCoordinatesList = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject boxJsonObject = jsonArray.getJSONObject(i);
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            JSONObject boxJsonObject = jsonObject.getJSONObject("box");
             BallCoordinates ballCoordinates = new BallCoordinates();
 
             try {
-                String label = boxJsonObject.getString("label");
+                String label = jsonObject.getString("label");
                 int ymin = boxJsonObject.getInt("ymin");
                 int xmin = boxJsonObject.getInt("xmin");
                 int ymax = boxJsonObject.getInt("ymax");
                 int xmax = boxJsonObject.getInt("xmax");
-                double confidence = boxJsonObject.getDouble("confidence");
+                double confidence = jsonObject.getDouble("confidence");
 
                 ballCoordinates.setLabel(label);
                 ballCoordinates.setYMin(ymin);
@@ -56,8 +61,8 @@ public class BallTracker {
                 ballCoordinates.setConfidence(confidence);
                 ballCoordinatesList.add(ballCoordinates);
             }
-            catch (JSONException exception) {
-                logger.logError("Exception processing JSON.");
+            catch (JSONException e) {
+                logger.logError("Exception processing JSON." + e);
                 return null;
             }
         }
@@ -74,6 +79,7 @@ public class BallTracker {
         if (ballCoordinatesList == null || ballCoordinatesList.size() == 0) {
             return null;
         }
+
         // Initialize finalBallCoords to a non-null value
         BallCoordinates finalBallCoords = ballCoordinatesList.get(0);
 
