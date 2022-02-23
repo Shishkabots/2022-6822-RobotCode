@@ -150,4 +150,8 @@ public class RobotContainer {
     }
     return logger;
   }
+
+  public DriveTrain getDriveTrain() {
+    return m_drivetrain;
+  }
 }

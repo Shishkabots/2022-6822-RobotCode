@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.logging.RobotLogger;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColorSensor;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.auto.BallTracker;
+import frc.robot.subsystems.Imu;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,13 +28,14 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private String m_driveMode;
   private RobotContainer m_robotContainer;
+  private DriveTrain m_driveTrain;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private final RobotLogger logger = RobotContainer.getLogger();
   private CameraSubsystem cam1;
   private ColorSensor colorSensor;
   private int m_logCounter;
   private BallTracker m_ballTracker;
-
+  private Imu m_imu;
 
 
   /**
@@ -49,6 +52,7 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
+        m_driveTrain = m_robotContainer.getDriveTrain();
         m_chooser.setDefaultOption("Arcade Drive", "Arcade Drive");
         m_chooser.addOption("Tank Drive", "Tank Drive");
         SmartDashboard.putData("choices", m_chooser);
@@ -61,6 +65,9 @@ public class Robot extends TimedRobot {
         colorSensor = new ColorSensor();
 
         m_ballTracker = new BallTracker();
+        
+        m_imu = new Imu(Constants.NAV_X_PORT);
+        logger.logInfo("imu angle calibration:" + m_imu.getYaw());
     } catch (Exception e) {
         logger.logError("Runtime Exception in robotInit" + e);
         throw e;
@@ -106,6 +113,8 @@ public class Robot extends TimedRobot {
       if (m_autonomousCommand != null) {
         m_autonomousCommand.schedule();
       }
+
+      m_imu.reset();
     } catch (Exception e) {
       logger.logError("Runtime Exception in autonomousInit" + e);
       throw e;
@@ -123,6 +132,19 @@ public class Robot extends TimedRobot {
         else {
           logger.logInfo("No ball located!");
         }
+      }
+
+      // Turning to specified degrees
+      if (m_imu.isCalibrating() == false && m_imu.getYaw() < Constants.targetDegrees) {
+        m_driveTrain.arcadedrive(0.4, 0);
+        logger.logInfo(""+m_imu.getYaw());
+      }
+      else if (m_imu.isCalibrating() == false && m_imu.getYaw() > Constants.targetDegrees) {
+        m_driveTrain.arcadedrive(-0.4, 0);
+      }
+      else {
+        logger.logInfo("Angle reached");
+        m_driveTrain.arcadedrive(0, 0);
       }
     } catch (Exception e) {
         logger.logError("Runtime Exception in autonomousPeriodic" + e);
