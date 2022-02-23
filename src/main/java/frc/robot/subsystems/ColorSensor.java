@@ -48,7 +48,7 @@ public class ColorSensor extends SubsystemBase {
     public void periodic() {
         ColorMatchResult match = m_colorMatcher.matchClosestColor(m_colorSensor.getColor());
  
-        m_logger.logInfo(checkColor(match));
+        //m_logger.logInfo(checkColor(match));
     }
 
     public String checkColor(ColorMatchResult match) {
