@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.logging.RobotLogger;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColorSensor;
+import frc.robot.auto.BallTracker;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -29,6 +30,9 @@ public class Robot extends TimedRobot {
   private final RobotLogger logger = RobotContainer.getLogger();
   private CameraSubsystem cam1;
   private ColorSensor colorSensor;
+  private int m_logCounter;
+  private BallTracker m_ballTracker;
+
 
 
   /**
@@ -92,7 +96,11 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    if ((m_logCounter / 10.0) % 1 == 0) {
+      logger.logInfo(m_ballTracker.getBallCoordinates().toString());
+    }
+  }
 
   @Override
   public void teleopInit() {
@@ -109,7 +117,11 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if ((m_logCounter / 10.0) % 1 == 0) {
+      logger.logInfo(m_ballTracker.getBallCoordinates().toString());
+    }
+  }
 
   @Override
   public void testInit() {
