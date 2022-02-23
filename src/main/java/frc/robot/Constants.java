@@ -5,6 +5,9 @@
 package frc.robot;
 
 import java.lang.Math;
+
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.util.Color;
 
 /**
@@ -99,4 +102,7 @@ public final class Constants {
     public final static Color kGreenTarget = new Color(0.197, 0.561, 0.240);
     public final static Color kRedTarget = new Color(0.561, 0.232, 0.114);
     public final static Color kYellowTarget = new Color(0.361, 0.524, 0.113);
+
+    public final static SerialPort.Port NAV_X_PORT = Port.kMXP;
+    public final static float targetDegrees = 30;
 }

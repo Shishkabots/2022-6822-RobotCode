@@ -168,4 +168,7 @@ public class RobotContainer {
 
     checkDrivetype();
   }
+  public DriveTrain getDriveTrain() {
+    return m_drivetrain;
+  }
 }
