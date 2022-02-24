@@ -131,6 +131,10 @@ public class RobotContainer {
     return logger;
   }
 
+  /**
+   * When switching you must press right trigger to initiate the change.
+   * Though right trigger turns ArcadeDrive to full throttle, once you let go it will initiate the driver mode on SmartDashboard.
+   */
   public void checkDrivetype() {
     switch(m_driveType) {
       case ARCADE_DRIVE:

@@ -154,20 +154,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     try {
-      //for (int m_teleopCounter = 0; m_teleopCounter < 30000; m_teleopCounter++){
-      /*if ((m_teleopCounter / 1000.0) % 1 == 0) {
-        if (m_ballTracker.chooseMostConfidentBall() != null) {
-          logger.logInfo(m_ballTracker.chooseMostConfidentBall().toString());
-        }
-        else {
-          logger.logInfo("No ball located!");
-        }
-      }}*/
-
+      if (m_ballTracker.chooseMostConfidentBall() != null) {
+        SmartDashboard.putString("Most confident ball: ", m_ballTracker.chooseMostConfidentBall().toString());
+      }
+      else {
+        SmartDashboard.putString("Most confident ball: ", "No ball located!");
+      }
       m_driveMode = m_chooser.getSelected();
-      logger.logInfo("Drive mode = " + m_driveMode);
       m_robotContainer.setDriveType(m_driveMode);
-      
+
     } catch (Exception e) {
         logger.logError("Runtime Exception in teleopPeriodic" + e);
         throw e;
