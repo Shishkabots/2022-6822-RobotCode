@@ -137,10 +137,11 @@ public class Robot extends TimedRobot {
       // Turning to specified degrees
       if (m_imu.isCalibrating() == false && m_imu.getYaw() < Constants.targetDegrees) {
         m_driveTrain.arcadedrive(0.4, 0);
-        logger.logInfo(""+m_imu.getYaw());
+        logger.logInfo("" + m_imu.getYaw());
       }
       else if (m_imu.isCalibrating() == false && m_imu.getYaw() > Constants.targetDegrees) {
         m_driveTrain.arcadedrive(-0.4, 0);
+        logger.logInfo("" + m_imu.getYaw());
       }
       else {
         logger.logInfo("Angle reached");
