@@ -97,7 +97,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    logger.cleanLogs(0);
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -125,27 +127,19 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     try {
-      if ((m_logCounter / 100.0) % 1 == 0) {
-        if (m_ballTracker.chooseMostConfidentBall() != null) {
-          logger.logInfo(m_ballTracker.chooseMostConfidentBall().toString());
+      for (int m_autonomousLogCounter = 0; m_autonomousLogCounter < 30000; m_autonomousLogCounter++) {
+        if ((m_logCounter / 100.0) % 1 == 0) {
+          if (m_ballTracker.chooseMostConfidentBall() != null) {
+            logger.logInfo(m_ballTracker.chooseMostConfidentBall().toString());
+          }
+          else {
+            logger.logInfo("No ball located!");
+          }
         }
-        else {
-          logger.logInfo("No ball located!");
+      
+        if ((m_autonomousLogCounter / 1.0) % 1.0 == 0) {
+          turnToSpecifiedDegree(m_logCounter);
         }
-      }
-
-      // Turning to specified degrees
-      if (m_imu.isCalibrating() == false && m_imu.getYaw() < Constants.targetDegrees) {
-        m_driveTrain.arcadedrive(0.4, 0);
-        logger.logInfo("" + m_imu.getYaw());
-      }
-      else if (m_imu.isCalibrating() == false && m_imu.getYaw() > Constants.targetDegrees) {
-        m_driveTrain.arcadedrive(-0.4, 0);
-        logger.logInfo("" + m_imu.getYaw());
-      }
-      else {
-        logger.logInfo("Angle reached");
-        m_driveTrain.arcadedrive(0, 0);
       }
     } catch (Exception e) {
         logger.logError("Runtime Exception in autonomousPeriodic" + e);
@@ -205,4 +199,21 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  public void turnToSpecifiedDegree(int m_logCounter) {
+    // Turning to specified degrees
+    if (Math.round(m_imu.getYaw()) == Constants.TARGET_DEGREES) {
+      logger.logInfo("Angle reached");
+      m_driveTrain.arcadedrive(0, 0);
+    }
+    else if (m_imu.isCalibrating() == false && m_imu.getYaw() < Constants.TARGET_DEGREES) {
+      m_driveTrain.arcadedrive(-0.4, 0);
+      logger.logInfo("" + m_imu.getYaw() + "logcount " + m_logCounter);
+    }
+    else if (m_imu.isCalibrating() == false && m_imu.getYaw() > Constants.TARGET_DEGREES) {
+      m_driveTrain.arcadedrive(0.4, 0);
+      logger.logInfo("" + m_imu.getYaw());
+    }
+
+  }
 }
