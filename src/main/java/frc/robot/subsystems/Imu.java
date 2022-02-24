@@ -52,4 +52,8 @@ public class Imu extends SubsystemBase {
     public boolean isCalibrating() {
         return m_navxAhrs.isCalibrating();
     }
+
+    public void reset() {
+        m_navxAhrs.reset();
+    }
 }
