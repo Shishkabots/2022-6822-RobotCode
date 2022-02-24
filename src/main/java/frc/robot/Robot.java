@@ -49,9 +49,10 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        m_chooser.setDefaultOption("Arcade Drive", "Arcade Drive");
-        m_chooser.addOption("Tank Drive", "Tank Drive");
-        SmartDashboard.putData("choices", m_chooser);
+        m_chooser.setDefaultOption(Constants.ARCADE_DRIVE, Constants.ARCADE_DRIVE);
+        m_chooser.addOption(Constants.TANK_DRIVE, Constants.TANK_DRIVE);
+        m_chooser.addOption(Constants.CURVATURE_DRIVE, Constants.CURVATURE_DRIVE);
+        SmartDashboard.putData("Drive Choices", m_chooser);
 
         // Sets Limelight to driver camera, turn off green LEDs.
         cam1 = new CameraSubsystem();
@@ -153,15 +154,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     try {
-      logger.logInfo("Teleop periodic started");
-      if ((m_logCounter / 100.0) % 1 == 0) {
-        if (m_ballTracker.chooseMostConfidentBall() != null) {
-          logger.logInfo(m_ballTracker.chooseMostConfidentBall().toString());
-        }
-        else {
-          logger.logInfo("No ball located!");
-        }
+      if (m_ballTracker.chooseMostConfidentBall() != null) {
+        SmartDashboard.putString("Most confident ball: ", m_ballTracker.chooseMostConfidentBall().toString());
       }
+      else {
+        SmartDashboard.putString("Most confident ball: ", "No ball located!");
+      }
+      m_driveMode = m_chooser.getSelected();
+      m_robotContainer.setDriveType(m_driveMode);
+
     } catch (Exception e) {
         logger.logError("Runtime Exception in teleopPeriodic" + e);
         throw e;

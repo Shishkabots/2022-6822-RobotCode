@@ -22,6 +22,9 @@ public final class Constants {
     public final static int DRIVETRAIN_RIGHT_BACK_MOTOR = 2;
     public final static int DRIVETRAIN_LEFT_FRONT_MOTOR = 3;
     public final static int DRIVETRAIN_LEFT_BACK_MOTOR = 4;
+    public final static String ARCADE_DRIVE = "Arcade Drive";
+    public final static String TANK_DRIVE = "Tank Drive";
+    public final static String CURVATURE_DRIVE = "Curvature Drive";
     // Here onwards are hypothetical values for probable CAN IDs for these motors.
     public final static int SHOOTER_LEAD_MOTOR = 5;
     public final static int SHOOTER_FOLLOWER_MOTOR = 6;
