@@ -104,5 +104,5 @@ public final class Constants {
     public final static Color kYellowTarget = new Color(0.361, 0.524, 0.113);
 
     public final static SerialPort.Port NAV_X_PORT = Port.kMXP;
-    public final static float TARGET_DEGREES = 90;
+    public final static String TARGET_DEGREES_KEY = "Target angle to turn:";
 }

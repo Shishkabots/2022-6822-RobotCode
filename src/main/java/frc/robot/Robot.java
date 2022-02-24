@@ -67,7 +67,9 @@ public class Robot extends TimedRobot {
         m_ballTracker = new BallTracker();
         
         m_imu = new Imu(Constants.NAV_X_PORT);
-        logger.logInfo("imu angle calibration:" + m_imu.getYaw());
+
+        // Puts the calibrated yaw value, which should be around 0.0.
+        SmartDashboard.putNumber(Constants.TARGET_DEGREES_KEY, m_imu.getYaw());
     } catch (Exception e) {
         logger.logError("Runtime Exception in robotInit" + e);
         throw e;
@@ -127,20 +129,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     try {
-      for (int m_autonomousLogCounter = 0; m_autonomousLogCounter < 30000; m_autonomousLogCounter++) {
-        if ((m_logCounter / 100.0) % 1 == 0) {
+
           if (m_ballTracker.chooseMostConfidentBall() != null) {
-            logger.logInfo(m_ballTracker.chooseMostConfidentBall().toString());
+            SmartDashboard.putString("Most confident ball: ", m_ballTracker.chooseMostConfidentBall().toString());
           }
           else {
-            logger.logInfo("No ball located!");
+            SmartDashboard.putString("Most confident ball: ", "No ball located!");
           }
-        }
       
-        if ((m_autonomousLogCounter / 1.0) % 1.0 == 0) {
-          turnToSpecifiedDegree(m_logCounter);
-        }
-      }
+          turnToSpecifiedDegree();
     } catch (Exception e) {
         logger.logError("Runtime Exception in autonomousPeriodic" + e);
         throw e;
@@ -200,20 +197,18 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 
-  public void turnToSpecifiedDegree(int m_logCounter) {
+  public void turnToSpecifiedDegree() {
     // Turning to specified degrees
-    if (Math.round(m_imu.getYaw()) == Constants.TARGET_DEGREES) {
+    if (Math.round(m_imu.getYaw()) == SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0)) {
       logger.logInfo("Angle reached");
       m_driveTrain.arcadedrive(0, 0);
     }
-    else if (m_imu.isCalibrating() == false && m_imu.getYaw() < Constants.TARGET_DEGREES) {
+    else if (m_imu.isCalibrating() == false && m_imu.getYaw() < SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0)) {
       m_driveTrain.arcadedrive(-0.4, 0);
-      logger.logInfo("" + m_imu.getYaw() + "logcount " + m_logCounter);
     }
-    else if (m_imu.isCalibrating() == false && m_imu.getYaw() > Constants.TARGET_DEGREES) {
+    else if (m_imu.isCalibrating() == false && m_imu.getYaw() > SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0)) {
       m_driveTrain.arcadedrive(0.4, 0);
-      logger.logInfo("" + m_imu.getYaw());
     }
-
+    SmartDashboard.putNumber("Yaw: ", m_imu.getYaw());
   }
 }
