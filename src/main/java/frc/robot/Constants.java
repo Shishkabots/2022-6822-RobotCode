@@ -5,6 +5,9 @@
 package frc.robot;
 
 import java.lang.Math;
+
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.util.Color;
 
 /**
@@ -22,6 +25,9 @@ public final class Constants {
     public final static int DRIVETRAIN_RIGHT_BACK_MOTOR = 2;
     public final static int DRIVETRAIN_LEFT_FRONT_MOTOR = 3;
     public final static int DRIVETRAIN_LEFT_BACK_MOTOR = 4;
+    public final static int STOP_TURNING = 0;
+    public final static int CLOCKWISE = 1;
+    public final static int COUNTER_CLOCKWISE = 2;
     public final static String ARCADE_DRIVE = "Arcade Drive";
     public final static String TANK_DRIVE = "Tank Drive";
     public final static String CURVATURE_DRIVE = "Curvature Drive";
@@ -99,4 +105,7 @@ public final class Constants {
     public final static Color kGreenTarget = new Color(0.197, 0.561, 0.240);
     public final static Color kRedTarget = new Color(0.561, 0.232, 0.114);
     public final static Color kYellowTarget = new Color(0.361, 0.524, 0.113);
+
+    public final static SerialPort.Port NAV_X_PORT = Port.kMXP;
+    public final static String TARGET_DEGREES_KEY = "Target angle to turn:";
 }
