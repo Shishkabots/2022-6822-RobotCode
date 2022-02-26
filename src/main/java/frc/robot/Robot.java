@@ -13,8 +13,7 @@ import frc.robot.logging.RobotLogger;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.auto.BallTracker;
-import frc.robot.subsystems.Imu;
+import frc.robot.commands.ArcadeDrive;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,10 +32,6 @@ public class Robot extends TimedRobot {
   private final RobotLogger logger = RobotContainer.getLogger();
   private CameraSubsystem cam1;
   private ColorSensor colorSensor;
-  private int m_logCounter;
-  private BallTracker m_ballTracker;
-  private Imu m_imu;
-
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -52,6 +47,7 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
+        m_driveTrain = m_robotContainer.getDriveTrain();
         m_chooser.setDefaultOption(Constants.ARCADE_DRIVE, Constants.ARCADE_DRIVE);
         m_chooser.addOption(Constants.TANK_DRIVE, Constants.TANK_DRIVE);
         m_chooser.addOption(Constants.CURVATURE_DRIVE, Constants.CURVATURE_DRIVE);
@@ -64,12 +60,14 @@ public class Robot extends TimedRobot {
 
         colorSensor = new ColorSensor();
 
-        m_ballTracker = new BallTracker();
-        
-        m_imu = new Imu(Constants.NAV_X_PORT);
+      
+
+        // turnClockwiseCommandDrive = new ArcadeDrive(() -> 0.4, () -> 0, m_driveTrain, Constants.JOYSTICK_THROTTLESPEED);
+        // turnCounterClockwiseCommandDrive = new ArcadeDrive(() -> -0.4, () -> 0, m_driveTrain, Constants.JOYSTICK_THROTTLESPEED);
+        // stopMotionCommandDrive = new ArcadeDrive(() -> 0.4, () -> 0, m_driveTrain, Constants.JOYSTICK_THROTTLESPEED);
 
         // Puts the calibrated yaw value, which should be around 0.0.
-        SmartDashboard.putNumber(Constants.TARGET_DEGREES_KEY, m_imu.getYaw());
+        
     } catch (Exception e) {
         logger.logError("Runtime Exception in robotInit" + e);
         throw e;
@@ -110,15 +108,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     try {
-      logger.logInfo("Autonomous initialized");
       m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
       // schedule the autonomous command (example)
       if (m_autonomousCommand != null) {
         m_autonomousCommand.schedule();
       }
-
-      m_imu.reset();
     } catch (Exception e) {
       logger.logError("Runtime Exception in autonomousInit" + e);
       throw e;
@@ -127,22 +122,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    try {
-
-          if (m_ballTracker.chooseMostConfidentBall() != null) {
-            SmartDashboard.putString("Most confident ball: ", m_ballTracker.chooseMostConfidentBall().toString());
-          }
-          else {
-            SmartDashboard.putString("Most confident ball: ", "No ball located!");
-          }
-      
-          turnToSpecifiedDegree();
-    } catch (Exception e) {
-        logger.logError("Runtime Exception in autonomousPeriodic" + e);
-        throw e;
-    }
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -152,11 +132,10 @@ public class Robot extends TimedRobot {
       // teleop starts running. If you want the autonomous to
       // continue until interrupted by another command, remove
       // this line or comment it out.
-      if (m_autonomousCommand != null) {
-        m_autonomousCommand.cancel();
-      }
+
       m_driveMode = m_chooser.getSelected();
       logger.logInfo("Drive Mode: " + m_driveMode);
+
     } catch (Exception e) {
         logger.logError("Runtime Exception in teleopInit" + e);
         throw e;
@@ -167,12 +146,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     try {
-      if (m_ballTracker.chooseMostConfidentBall() != null) {
-        SmartDashboard.putString("Most confident ball: ", m_ballTracker.chooseMostConfidentBall().toString());
-      }
-      else {
-        SmartDashboard.putString("Most confident ball: ", "No ball located!");
-      }
       m_driveMode = m_chooser.getSelected();
       m_robotContainer.setDriveType(m_driveMode);
 
@@ -199,16 +172,6 @@ public class Robot extends TimedRobot {
 
   public void turnToSpecifiedDegree() {
     // Turning to specified degrees
-    if (Math.round(m_imu.getYaw()) == SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0)) {
-      logger.logInfo("Angle reached");
-      m_driveTrain.arcadedrive(0, 0);
-    }
-    else if (m_imu.isCalibrating() == false && m_imu.getYaw() < SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0)) {
-      m_driveTrain.arcadedrive(-0.4, 0);
-    }
-    else if (m_imu.isCalibrating() == false && m_imu.getYaw() > SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0)) {
-      m_driveTrain.arcadedrive(0.4, 0);
-    }
-    SmartDashboard.putNumber("Yaw: ", m_imu.getYaw());
-  }
+    
+}
 }

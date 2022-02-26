@@ -6,6 +6,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.logging.RobotLogger;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import edu.wpi.first.math.controller.PIDController;
 
@@ -25,9 +26,14 @@ public class Imu extends SubsystemBase {
     */
 
 
-    public Imu (SerialPort.Port kMXP) {
-        m_navxAhrs = new AHRS(kMXP);
+    public Imu () {
+        m_navxAhrs = new AHRS(SerialPort.Port.kMXP);
         initialize();
+    }
+
+    @Override
+    public void periodic(){
+        //SmartDashboard.putNumber(Constants.TARGET_DEGREES_KEY, m_navxAhrs.getYaw());
     }
 
     public void initialize() {

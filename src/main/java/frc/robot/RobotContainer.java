@@ -14,6 +14,7 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.CurvatureDrive;
 import frc.robot.commands.Shoot;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Imu;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +26,8 @@ import java.util.logging.Level;
 import java.io.IOException;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.auto.AutoCommand;
+import frc.robot.auto.BallTracker;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,6 +48,8 @@ public class RobotContainer {
   private final DriveTrain m_drivetrain = new DriveTrain();
   private final Shooter m_shooter = new Shooter();
   private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
+  private final Imu m_imu = new Imu();
+  private final BallTracker m_ballTracker = new BallTracker();
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
   private static RobotLogger logger;
   private final Intake m_intake = new Intake();
@@ -60,6 +65,8 @@ public class RobotContainer {
 
     m_intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", m_intake.intakeVelocity()), m_intake));
 
+
+    m_autoCommand = new AutoCommand(m_imu, m_drivetrain, m_ballTracker);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -84,7 +91,7 @@ public class RobotContainer {
       new StartEndCommand(
         () -> m_intake.setIntake(SmartDashboard.getNumber("Set Intake Velocity", 0.0)),
         () -> m_intake.setIntake(0), m_intake));
-   }
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
