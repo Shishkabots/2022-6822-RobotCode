@@ -84,19 +84,24 @@ public class AutoCommand extends CommandBase {
   // Always call after chooseMostConfidentBall(), else mostConfidentBallCoordinates will be null
   public void turnToBall() {
     try {
+    if (mostConfidentBallCoordinates != null) {
     if (Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO > mostConfidentBallCoordinates.getXMin() && Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO < mostConfidentBallCoordinates.getXMax()) {
         logger.logInfo("Ball reached");
         SmartDashboard.putString(Constants.DIRECTION_KEY, "Stopped Turning");
         m_driveTrain.setAutoTurnDirection(Constants.STOP_TURNING);
+        SmartDashboard.putNumber("a", mostConfidentBallCoordinates.getXMin());
       }
       else if (m_imu.isCalibrating() == false && Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO < mostConfidentBallCoordinates.getXMin()) {
         SmartDashboard.putString(Constants.DIRECTION_KEY, "Clockwise");
         m_driveTrain.setAutoTurnDirection(Constants.CLOCKWISE);
+        SmartDashboard.putNumber("a", mostConfidentBallCoordinates.getXMin());
       }
       else if (m_imu.isCalibrating() == false && Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO > mostConfidentBallCoordinates.getXMin()) {
         SmartDashboard.putString(Constants.DIRECTION_KEY, "Counter clockwise");
         m_driveTrain.setAutoTurnDirection(Constants.COUNTER_CLOCKWISE);
-      }
+        SmartDashboard.putNumber("a", mostConfidentBallCoordinates.getXMin());
+
+      }}
       SmartDashboard.putNumber("Yaw: ", m_imu.getYaw());
     } catch (Exception e) {
         logger.logError("Runtime Exception while trying to turnToBall() " + e);

@@ -109,5 +109,5 @@ public final class Constants {
     public final static SerialPort.Port NAV_X_PORT = Port.kMXP;
     public final static String TARGET_DEGREES_KEY = "Target angle to turn:";
     public final static String DIRECTION_KEY = "Direction: ";
-    public final static int CAMERA_WIDTH_IN_PIXELS_OVER_TWO = 640;
+    public final static int CAMERA_WIDTH_IN_PIXELS_OVER_TWO = 320;
 }

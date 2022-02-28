@@ -19,8 +19,8 @@ public class BallTracker {
     public BallTracker() {
         m_ballDataTable = NetworkTableInstance.getDefault().getTable("ML");
         if (m_ballDataTable == null) {
-            logger.logError("Ball Data Table is null.");
-            throw new RuntimeException("Null data entry");
+            SmartDashboard.putString("b", "Ball Data Table is null.");
+            //throw new RuntimeException("Null data entry");
         }
     }
 
