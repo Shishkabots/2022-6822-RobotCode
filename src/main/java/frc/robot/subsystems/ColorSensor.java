@@ -19,6 +19,7 @@ public class ColorSensor extends SubsystemBase {
     private ColorSensorV3 m_colorSensor;
     private RobotLogger m_logger;
     private final ColorMatch m_colorMatcher;
+    private ColorMatchResult match;
 
     public ColorSensor() {
         Port port = Port.kOnboard;
@@ -36,9 +37,6 @@ public class ColorSensor extends SubsystemBase {
     /**
      * Accessor methods
      */
-    public ColorSensorV3 getColorSensor() {
-        return m_colorSensor;
-    }
 
     public Color getColor() {
         return m_colorSensor.getColor();
@@ -46,12 +44,10 @@ public class ColorSensor extends SubsystemBase {
 
     @Override
     public void periodic() {
-        ColorMatchResult match = m_colorMatcher.matchClosestColor(m_colorSensor.getColor());
- 
-        //m_logger.logInfo(checkColor(match));
-    }
+        match = m_colorMatcher.matchClosestColor(m_colorSensor.getColor());
+     }
 
-    public String checkColor(ColorMatchResult match) {
+    public String checkColor() {
         String colorString = "";
         if (match.color == Constants.kBlueTarget) {
             colorString = "Blue";

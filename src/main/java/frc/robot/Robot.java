@@ -31,8 +31,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private final RobotLogger logger = RobotContainer.getLogger();
   private CameraSubsystem cam1;
-  private ColorSensor colorSensor;
-
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -57,14 +56,6 @@ public class Robot extends TimedRobot {
         cam1 = new CameraSubsystem();
         cam1.setCamToDriverMode();
         cam1.setLedToOff();
-
-        colorSensor = new ColorSensor();
-
-      
-
-        // turnClockwiseCommandDrive = new ArcadeDrive(() -> 0.4, () -> 0, m_driveTrain, Constants.JOYSTICK_THROTTLESPEED);
-        // turnCounterClockwiseCommandDrive = new ArcadeDrive(() -> -0.4, () -> 0, m_driveTrain, Constants.JOYSTICK_THROTTLESPEED);
-        // stopMotionCommandDrive = new ArcadeDrive(() -> 0.4, () -> 0, m_driveTrain, Constants.JOYSTICK_THROTTLESPEED);
 
         // Puts the calibrated yaw value, which should be around 0.0.
         
