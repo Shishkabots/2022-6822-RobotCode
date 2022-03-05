@@ -32,7 +32,7 @@ public class AutoCommand extends CommandBase {
     private Intake m_intake;
 
     private double kP = 0.3, kI = 0.3, kD = 1;
-    private double integral, previous_error, error = 0;
+    private double integral, previous_error, error, error_max, error_min;
     private int setpoint = Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO;
     private double rcw;
 
@@ -147,9 +147,17 @@ public class AutoCommand extends CommandBase {
   public void PIDTurningControl(){
     try {
       error = setpoint - ((mostConfidentBallCoordinates.getXMin() + mostConfidentBallCoordinates.getXMax()) / 2); // Error = Target - Actual
+
       integral = (error * .02);
       //derivative = (error - previous_error) / .02;
-      rcw = (kP * error + kI * integral);
+
+      // If the current error is within the error leeway, the robot will stop turning.
+      if (Math.abs(error) < Constants.ERROR_LEEWAY) {
+        rcw = 0;
+      }
+      else {
+        rcw = (kP * error + kI * integral);
+      }
 
       //Sensitivity adjustment, since the rcw value originally is in hundreds (it is the pixel error + integral).
       // 10.0 is an arbitrary number for testing, no real meaning behind it.

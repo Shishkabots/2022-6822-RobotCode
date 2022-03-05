@@ -115,4 +115,6 @@ public final class Constants {
      * Arm and intake constants
      */
     public final static double SPEED_TO_SPIT_OUT_BALL = -1;
+
+    public final static double ERROR_LEEWAY = 3;
 }
