@@ -94,7 +94,12 @@ public class AutoCommand extends CommandBase {
   public void checkAutonomousState() {
     switch (m_autonomousState) {
       case SCORE_PRELOADED_BALL:
-        dropPreloadedBall();
+        while (ballPickedUp()) {
+          dropPreloadedBall();
+        }
+
+        // Once the preloaded ball is dropped, set state to go to ball.
+        m_autonomousState = AutonomousState.GO_TO_BALL;
         break;
       case GO_TO_BALL:
         chooseMostConfidentBall();
