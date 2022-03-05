@@ -68,7 +68,7 @@ public class RobotContainer {
     m_intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", m_intake.intakeVelocity()), m_intake));
 
 
-    m_autoCommand = new AutoCommand(m_imu, m_drivetrain, m_ballTracker, m_intake, m_colorSensor);
+    m_autoCommand = new AutoCommand(m_imu, m_drivetrain, m_ballTracker, m_colorSensor);
     // Configure the button bindings
     configureButtonBindings();
   }

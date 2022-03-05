@@ -49,11 +49,11 @@ public class AutoCommand extends CommandBase {
    *
    * @param  drivetrain The drivetrain used by this command.
    */
-  public AutoCommand(Imu imu, DriveTrain driveTrain, BallTracker ballTracker, Intake intake, ColorSensor colorSensor) {
+  public AutoCommand(Imu imu, DriveTrain driveTrain, BallTracker ballTracker, ColorSensor colorSensor) {
     m_imu = imu;
     m_driveTrain = driveTrain;
     m_ballTracker = ballTracker;
-    m_intake = intake;
+    //m_intake = intake;
     m_colorSensor = colorSensor;
     addRequirements(m_imu, m_driveTrain);
   }
@@ -63,7 +63,7 @@ public class AutoCommand extends CommandBase {
   public void initialize() {
     logger.logInfo("Autonomous Command initialized!");
     m_imu.reset();
-    m_autonomousState = AutonomousState.GO_TO_BALL;
+    m_autonomousState = AutonomousState.SCORE_PRELOADED_BALL;
    }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -94,14 +94,15 @@ public class AutoCommand extends CommandBase {
   public void checkAutonomousState() {
     switch (m_autonomousState) {
       case SCORE_PRELOADED_BALL:
-        while (ballPickedUp()) {
+        /*while (ballPickedUp()) {
           dropPreloadedBall();
-        }
-
+        }*/
+        SmartDashboard.putString("autocommand state", "SCORE_PRELOADED_BALL");
         // Once the preloaded ball is dropped, set state to go to ball.
         m_autonomousState = AutonomousState.GO_TO_BALL;
         break;
       case GO_TO_BALL:
+        SmartDashboard.putString("autocommand state", "GO_TO_BALL");
         chooseMostConfidentBall();
         PIDTurningControl();
         turnToBall();
@@ -123,7 +124,7 @@ public class AutoCommand extends CommandBase {
 
   public void dropPreloadedBall() {
       //spit out the ball for three seconds
-      m_intake.setPercentModeSpeed(Constants.SPEED_TO_SPIT_OUT_BALL);
+      //m_intake.setPercentModeSpeed(Constants.SPEED_TO_SPIT_OUT_BALL);
 
   }
   /**
