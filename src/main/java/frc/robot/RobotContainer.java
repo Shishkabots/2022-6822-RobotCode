@@ -68,7 +68,7 @@ public class RobotContainer {
     m_intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", m_intake.intakeVelocity()), m_intake));
 
 
-    m_autoCommand = new AutoCommand(m_imu, m_drivetrain, m_ballTracker, m_colorSensor);
+    m_autoCommand = new AutoCommand(m_imu, m_drivetrain, m_ballTracker, m_intake, m_colorSensor);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -91,8 +91,8 @@ public class RobotContainer {
      */
     new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTBUMPER).whileHeld(
       new StartEndCommand(
-        () -> m_intake.setIntake(SmartDashboard.getNumber("Set Intake Velocity", 0.0)),
-        () -> m_intake.setIntake(0), m_intake));
+        () -> m_intake.setPercentModeSpeed(SmartDashboard.getNumber("Set Intake Percent", 0.0)),
+        () -> m_intake.setPercentModeSpeed(0), m_intake));
   }
 
   /**

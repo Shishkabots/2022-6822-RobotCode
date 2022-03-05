@@ -19,6 +19,7 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.auto.BallTracker;
+import frc.robot.subsystems.Intake;
 
 /** An example command that uses an example subsystem. */
 public class AutoCommand extends CommandBase {
@@ -28,6 +29,7 @@ public class AutoCommand extends CommandBase {
     private BallTracker m_ballTracker;
     private BallCoordinates mostConfidentBallCoordinates;
     private ColorSensor m_colorSensor;
+    private Intake m_intake;
 
     private double kP = 0.3, kI = 0.3, kD = 1;
     private double integral, previous_error, error = 0;
@@ -47,10 +49,11 @@ public class AutoCommand extends CommandBase {
    *
    * @param  drivetrain The drivetrain used by this command.
    */
-  public AutoCommand(Imu imu, DriveTrain driveTrain, BallTracker ballTracker, ColorSensor colorSensor) {
+  public AutoCommand(Imu imu, DriveTrain driveTrain, BallTracker ballTracker, Intake intake, ColorSensor colorSensor) {
     m_imu = imu;
     m_driveTrain = driveTrain;
     m_ballTracker = ballTracker;
+    m_intake = intake;
     m_colorSensor = colorSensor;
     addRequirements(m_imu, m_driveTrain);
   }
@@ -91,7 +94,7 @@ public class AutoCommand extends CommandBase {
   public void checkAutonomousState() {
     switch (m_autonomousState) {
       case SCORE_PRELOADED_BALL:
-        //run motor to drop ball.
+        dropPreloadedBall();
         break;
       case GO_TO_BALL:
         chooseMostConfidentBall();
@@ -113,6 +116,11 @@ public class AutoCommand extends CommandBase {
     }
   }
 
+  public void dropPreloadedBall() {
+      //spit out the ball for three seconds
+      m_intake.setPercentModeSpeed(Constants.SPEED_TO_SPIT_OUT_BALL);
+
+  }
   /**
    * Chooses the most confident ball detected.
    */
@@ -174,5 +182,5 @@ public class AutoCommand extends CommandBase {
    */
   public boolean ballPickedUp() {
     return (m_colorSensor.checkColor().equals(""));
-  } 
+  }
 }
