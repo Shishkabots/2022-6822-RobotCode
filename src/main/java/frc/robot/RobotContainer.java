@@ -46,15 +46,15 @@ public class RobotContainer {
 
   private Command m_autoCommand;
   private Command m_teleopCommand;
-  private final DriveTrain m_drivetrain = new DriveTrain();
-  private final Shooter m_shooter = new Shooter();
-  private final Joystick m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
-  private final Imu m_imu = new Imu();
-  private final BallTracker m_ballTracker = new BallTracker();
-  private DriveType m_driveType = DriveType.ARCADE_DRIVE;
+  private final DriveTrain m_drivetrain;
+  private final Shooter m_shooter;
+  private final Joystick m_driverStick;
+  private final Imu m_imu;
+  private final BallTracker m_ballTracker;
+  private DriveType m_driveType;
   private static RobotLogger logger;
-  private final Intake m_intake = new Intake();
-  private final RangeFinderSensor m_rangeFinderSensor = new RangeFinderSensor();
+  private final Intake m_intake;
+  private final RangeFinderSensor m_rangeFinderSensor;
 
   // True makes it turn-in-place, false makes it do constant-curvature motion.
   private final BooleanSupplier m_isQuickTurn = () -> false; 
@@ -62,6 +62,14 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // assign default commands
+    m_drivetrain = new DriveTrain();
+    m_shooter = new Shooter();
+    m_driverStick = new Joystick(Constants.DRIVER_STICK_PORT);
+    m_imu = new Imu();
+    m_ballTracker = new BallTracker();
+    m_driveType = DriveType.ARCADE_DRIVE;
+    m_intake = new Intake();
+    m_rangeFinderSensor = new RangeFinderSensor();
 
     m_drivetrain.setDefaultCommand(new ArcadeDrive(() -> (-m_driverStick.getRawAxis(Constants.JOYSTICK_LEFT_Y)), () -> m_driverStick.getRawAxis(Constants.JOYSTICK_RIGHT_X), m_drivetrain, Constants.JOYSTICK_THROTTLESPEED));
 
