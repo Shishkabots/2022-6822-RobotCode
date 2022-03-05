@@ -17,6 +17,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Imu;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.RangeFinderSensor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
@@ -53,6 +54,7 @@ public class RobotContainer {
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
   private static RobotLogger logger;
   private final Intake m_intake = new Intake();
+  private final RangeFinderSensor m_rangeFinderSensor = new RangeFinderSensor();
 
   // True makes it turn-in-place, false makes it do constant-curvature motion.
   private final BooleanSupplier m_isQuickTurn = () -> false; 
@@ -177,5 +179,9 @@ public class RobotContainer {
   }
   public DriveTrain getDriveTrain() {
     return m_drivetrain;
+  }
+
+  public RangeFinderSensor getRangeFinder() {
+    return m_rangeFinderSensor;
   }
 }

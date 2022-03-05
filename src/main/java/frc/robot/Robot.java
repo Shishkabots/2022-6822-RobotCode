@@ -13,6 +13,7 @@ import frc.robot.logging.RobotLogger;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.RangeFinderSensor;
 import frc.robot.commands.ArcadeDrive;
 
 /**
@@ -32,6 +33,7 @@ public class Robot extends TimedRobot {
   private final RobotLogger logger = RobotContainer.getLogger();
   private CameraSubsystem cam1;
   private ColorSensor colorSensor;
+  private RangeFinderSensor m_rangeFinderSensor;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -48,6 +50,7 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
         m_driveTrain = m_robotContainer.getDriveTrain();
+        m_rangeFinderSensor = m_robotContainer.getRangeFinder();
         m_chooser.setDefaultOption(Constants.ARCADE_DRIVE, Constants.ARCADE_DRIVE);
         m_chooser.addOption(Constants.TANK_DRIVE, Constants.TANK_DRIVE);
         m_chooser.addOption(Constants.CURVATURE_DRIVE, Constants.CURVATURE_DRIVE);
@@ -146,9 +149,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     try {
-      m_driveMode = m_chooser.getSelected();
-      m_robotContainer.setDriveType(m_driveMode);
-
+      /*m_driveMode = m_chooser.getSelected();
+      m_robotContainer.setDriveType(m_driveMode);*/
+      SmartDashboard.putNumber("rangefinder values", m_rangeFinderSensor.getReading());
     } catch (Exception e) {
         logger.logError("Runtime Exception in teleopPeriodic" + e);
         throw e;
@@ -172,6 +175,5 @@ public class Robot extends TimedRobot {
 
   public void turnToSpecifiedDegree() {
     // Turning to specified degrees
-    
-}
+  }
 }
