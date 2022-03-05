@@ -24,6 +24,7 @@ public class AutoCommand extends CommandBase {
     private Imu m_imu;
     private DriveTrain m_driveTrain;
     private BallTracker m_ballTracker;
+    private BallCoordinates mostConfidentBallCoordinates;
 
   private final RobotLogger logger = RobotContainer.getLogger();
 
@@ -70,8 +71,9 @@ public class AutoCommand extends CommandBase {
 
 
   public void chooseMostConfidentBall() {
-    if (m_ballTracker.chooseMostConfidentBall() != null) {
-        SmartDashboard.putString("Most confident ball: ", m_ballTracker.chooseMostConfidentBall().toString());
+    mostConfidentBallCoordinates = m_ballTracker.chooseMostConfidentBall();
+    if (mostConfidentBallCoordinates != null) {
+        SmartDashboard.putString("Most confident ball: ", mostConfidentBallCoordinates.toString());
     }
     else {
         SmartDashboard.putString("Most confident ball: ", "No ball located!");
@@ -79,20 +81,26 @@ public class AutoCommand extends CommandBase {
 }
 
   // +/- 10 degrees to allow for overshoot and undershot, will be redone with PID now.
+  // Always call after chooseMostConfidentBall(), else mostConfidentBallCoordinates will be null
   public void turnToBall() {
-    if (Math.round(m_imu.getYaw()) >= SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0) - 10 && Math.round(m_imu.getYaw()) <= SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0) + 10) {
-        logger.logInfo("Angle reached");
-        SmartDashboard.putString("Direction: ", "None");
+    try {
+    if (Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO > mostConfidentBallCoordinates.getXMin() && Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO < mostConfidentBallCoordinates.getXMax()) {
+        logger.logInfo("Ball reached");
+        SmartDashboard.putString(Constants.DIRECTION_KEY, "Stopped Turning");
         m_driveTrain.setAutoTurnDirection(Constants.STOP_TURNING);
       }
-      else if (m_imu.isCalibrating() == false && m_imu.getYaw() < SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0)) {
-        SmartDashboard.putString("Direction: ", "Clockwise");
+      else if (m_imu.isCalibrating() == false && Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO < mostConfidentBallCoordinates.getXMin()) {
+        SmartDashboard.putString(Constants.DIRECTION_KEY, "Clockwise");
         m_driveTrain.setAutoTurnDirection(Constants.CLOCKWISE);
       }
-      else if (m_imu.isCalibrating() == false && m_imu.getYaw() > SmartDashboard.getNumber(Constants.TARGET_DEGREES_KEY, 0.0)) {
-        SmartDashboard.putString("Direction: ", "Counter clockwise");
+      else if (m_imu.isCalibrating() == false && Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO > mostConfidentBallCoordinates.getXMin()) {
+        SmartDashboard.putString(Constants.DIRECTION_KEY, "Counter clockwise");
         m_driveTrain.setAutoTurnDirection(Constants.COUNTER_CLOCKWISE);
       }
       SmartDashboard.putNumber("Yaw: ", m_imu.getYaw());
+    } catch (Exception e) {
+        logger.logError("Runtime Exception while trying to turnToBall() " + e);
+        throw e;
+    }
   }
 }
