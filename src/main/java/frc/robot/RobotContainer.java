@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.auto.AutoCommand;
 import frc.robot.auto.BallTracker;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -53,6 +54,7 @@ public class RobotContainer {
   private DriveType m_driveType = DriveType.ARCADE_DRIVE;
   private static RobotLogger logger;
   private final Intake m_intake = new Intake();
+  private final ColorSensor m_colorSensor = new ColorSensor();
 
   // True makes it turn-in-place, false makes it do constant-curvature motion.
   private final BooleanSupplier m_isQuickTurn = () -> false; 
@@ -66,7 +68,7 @@ public class RobotContainer {
     m_intake.setDefaultCommand(new RunCommand(() -> SmartDashboard.putNumber("Intake Velocity", m_intake.intakeVelocity()), m_intake));
 
 
-    m_autoCommand = new AutoCommand(m_imu, m_drivetrain, m_ballTracker);
+    m_autoCommand = new AutoCommand(m_imu, m_drivetrain, m_ballTracker, m_intake, m_colorSensor);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -89,8 +91,8 @@ public class RobotContainer {
      */
     new JoystickButton(m_driverStick, Constants.JOYSTICK_RIGHTBUMPER).whileHeld(
       new StartEndCommand(
-        () -> m_intake.setIntake(SmartDashboard.getNumber("Set Intake Velocity", 0.0)),
-        () -> m_intake.setIntake(0), m_intake));
+        () -> m_intake.setPercentModeSpeed(SmartDashboard.getNumber("Set Intake Percent", 0.0)),
+        () -> m_intake.setPercentModeSpeed(0), m_intake));
   }
 
   /**

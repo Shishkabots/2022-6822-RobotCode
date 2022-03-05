@@ -5,28 +5,27 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
 
   // Use Talon SRX or FX for the motor
-  private final TalonSRX m_intakeMotor;
-  private final TalonSRX m_intakeFollower;
+  private final VictorSPX m_intakeMotor;
 
   public Intake(){
-    m_intakeMotor = new TalonSRX(Constants.INTAKE_LEAD_MOTOR);
-    m_intakeFollower = new TalonSRX(Constants.INTAKE_FOLLOWER_MOTOR);
-
-    // Inverts direction of follower motor since the lead and follower will face towards each other
-    m_intakeFollower.setInverted(Constants.IS_INVERTED);
-    m_intakeFollower.follow(m_intakeMotor);
+    m_intakeMotor = new VictorSPX(Constants.INTAKE_LEAD_MOTOR);
   }
 
   // Sets control mode to velocity such that motor runs at a specified velocity
-  public void setIntake(double velocity){
-    m_intakeMotor.set(ControlMode.Velocity, velocity);
+  public void setVelocityModeSpeed(double speed){
+    m_intakeMotor.set(ControlMode.Velocity, speed);
+  }
+
+  public void setPercentModeSpeed(double speed) {
+    m_intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public double intakeVelocity(){
