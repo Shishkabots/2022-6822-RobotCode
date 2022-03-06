@@ -9,16 +9,16 @@ import frc.robot.subsystems.DriveTrain;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.logging.RobotLogger;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Imu;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.ColorSensor;
-import frc.robot.auto.BallTracker;
 import frc.robot.subsystems.Intake;
 
 /** An example command that uses an example subsystem. */
@@ -32,9 +32,11 @@ public class AutoCommand extends CommandBase {
     private Intake m_intake;
 
     private double kP = 0.3, kI = 0.3, kD = 1;
-    private double integral, previous_error, error, error_max, error_min;
+    private double integral, previous_error, error;
     private int setpoint = Constants.CAMERA_WIDTH_IN_PIXELS_OVER_TWO;
     private double rcw;
+    private double imu_error;
+    private double imu_rcw;
 
     private AutonomousState m_autonomousState;
 
@@ -53,6 +55,7 @@ public class AutoCommand extends CommandBase {
     m_imu = imu;
     m_driveTrain = driveTrain;
     m_ballTracker = ballTracker;
+    //m_arm = arm;
     //m_intake = intake;
     m_colorSensor = colorSensor;
     addRequirements(m_imu, m_driveTrain);
@@ -72,7 +75,7 @@ public class AutoCommand extends CommandBase {
   public void execute() {
     //checkAutonomousState(); will be uncommented when the full method is done.
       chooseMostConfidentBall();
-      PIDTurningControl();
+      PIDBallTurningControl();
       turnToBall();
   }
 
@@ -80,7 +83,7 @@ public class AutoCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    logger.logInfo("Arcadedrive ended, interrupted = " + interrupted);
+    logger.logInfo("Autocommand ended, interrupted = " + interrupted);
   }
 
   // Returns true when the command should end.
@@ -95,37 +98,34 @@ public class AutoCommand extends CommandBase {
     switch (m_autonomousState) {
       case SCORE_PRELOADED_BALL:
         /*while (ballPickedUp()) {
-          dropPreloadedBall();
+          scoreBall();
         }*/
-        SmartDashboard.putString("autocommand state", "SCORE_PRELOADED_BALL");
+        SmartDashboard.putString("Autocommand state", "SCORE_PRELOADED_BALL");
         // Once the preloaded ball is dropped, set state to go to ball.
         m_autonomousState = AutonomousState.GO_TO_BALL;
         break;
       case GO_TO_BALL:
-        SmartDashboard.putString("autocommand state", "GO_TO_BALL");
+        SmartDashboard.putString("Autocommand state", "GO_TO_BALL");
         chooseMostConfidentBall();
-        PIDTurningControl();
+        PIDBallTurningControl();
         turnToBall();
-        // add going to ball methods
+        goStraight();
+        //pickUpBall
         if (ballPickedUp()) {
           m_autonomousState = AutonomousState.SCORE_BALL;
         }
         break;
       case SCORE_BALL:
         if (ballPickedUp()) {
-          //if (m_imu.getYaw() > -2 || m_imu.getYaw() < 2)
-          //turnBackToHub(); //implement pid control here?
-          //goToHub();
+          PIDHubTurningControl();
+          turnToHub();
+          // add rangesensor stop here 
+          //while (m_rangeFinderSensor > 20 inches)
+          //goStraight();
           //scoreBall();
         }
         break;
     }
-  }
-
-  public void dropPreloadedBall() {
-      //spit out the ball for three seconds
-      //m_intake.setPercentModeSpeed(Constants.SPEED_TO_SPIT_OUT_BALL);
-
   }
   /**
    * Chooses the most confident ball detected.
@@ -144,7 +144,7 @@ public class AutoCommand extends CommandBase {
    * PID for turning
    * error is the target - actual.
    */
-  public void PIDTurningControl(){
+  public void PIDBallTurningControl(){
     try {
       error = setpoint - ((mostConfidentBallCoordinates.getXMin() + mostConfidentBallCoordinates.getXMax()) / 2); // Error = Target - Actual
 
@@ -174,6 +174,36 @@ public class AutoCommand extends CommandBase {
     }
   }
 
+  public void PIDHubTurningControl() {
+    try {
+      // Invert the yaw so that the robot moves the right way (if the robot is pointed left the error is positive so the robot will turn right)
+      imu_error = -1 * m_imu.getYaw();
+
+      integral = (imu_error * .02);
+      //derivative = (error - previous_error) / .02;
+
+      // If the current error is within the error leeway, the robot will stop turning.
+      if (Math.abs(imu_error) < Constants.ERROR_LEEWAY) {
+        imu_rcw = 0;
+      }
+      else {
+        imu_rcw = (kP * imu_error + kI * integral);
+      }
+
+      //Sensitivity adjustment, since the rcw value originally is in hundreds (it is the pixel error + integral).
+      // 10.0 is an arbitrary number for testing, no real meaning behind it.
+      if (imu_rcw < 0) {
+        imu_rcw = -1 * Math.sqrt(Math.abs(imu_rcw)) / 10.0;
+      }
+      else {
+        imu_rcw = Math.sqrt(imu_rcw) / 10.0;
+      }
+      SmartDashboard.putString("values", imu_rcw + " is rcw. " + "error is " + kP + ". integral is " + kI);
+    }
+    catch (Exception e) {
+      SmartDashboard.putString("error", "runtime in pidturn");
+    }
+  }
   // +/- 10 degrees to allow for overshoot and undershot, will be redone with PID now.
   // Always call after chooseMostConfidentBall(), else mostConfidentBallCoordinates will be null
   public void turnToBall() {
@@ -184,11 +214,62 @@ public class AutoCommand extends CommandBase {
     }
       SmartDashboard.putNumber("Yaw: ", m_imu.getYaw());
     } catch (Exception e) {
-        logger.logError("Runtime Exception while trying to turnToBall() " + e);
+        logger.logError("Runtime Exception while trying to use PID with ball turning " + e);
         throw e;
     }
   }
 
+  public void turnToHub() {
+    try {
+      SmartDashboard.putNumber("imu rcw", imu_rcw);
+      m_driveTrain.arcadedrive(0, imu_rcw);
+      if (m_imu.getYaw() > 0 - Constants.ERROR_LEEWAY || m_imu.getYaw() < 0 + Constants.ERROR_LEEWAY) {
+      }
+    } catch (Exception e) {
+      logger.logError("Runtime Exception while trying to use PID with turning to hub " + e);
+      throw e;
+    }
+  }
+
+  /**
+   * Goes straight forward.
+   */
+  public void goStraight() {
+    try {
+      m_driveTrain.arcadedrive(0.3, 0);
+    } catch (Exception e) {
+      logger.logError("Runtime Exception while trying to go straight " + e);
+      throw e;
+    }
+  }
+
+  public void pickUpBall() {
+    /*
+    double timeAtWhichProcessStarts = Timer.getFPGATimestamp();
+    // If the timer since when the process starts is less than desired time (from everybot code) lower arm. ArmIsUp should be true too.
+    while(Timer.getFPGATimestamp() < timeAtWhichProcessStarts + Constants.ARM_UP_TIME && armIsUp == true) {
+      m_arm.setSpeed(-Constants.ARM_TRAVEL);
+    }
+    m_arm.setSpeed(-Constants.ARM_HOLD_DOWN);
+    armIsUp = false;*/
+  }
+
+  public void putArmUp() {
+    /*double timeAtWhichProcessStarts = Timer.getFPGATimestamp();
+    // If the timer since when the process starts is less than desired time (from everybot code) lower arm. ArmIsUp should be true too.
+    while(Timer.getFPGATimestamp() < timeAtWhichProcessStarts + Constants.ARM_DOWN_TIME && armIsUp == false) {
+      m_arm.setSpeed(Constants.ARM_TRAVEL);
+    }
+    m_arm.setSpeed(Constants.ARM_HOLD_DOWN);
+    armIsUp = true;*/
+  }
+
+  public void scoreBall() {
+    /*putArmUp();
+    if (armIsUp) {
+      m_intake.setSpeed(Constants.SPEED_TO_SPIT_OUT_BALL);
+    }*/
+  }
   /**
    * Returns a value based on if the colorsensor detects a color or not. If it doesn't, it means there is no ball present.
    * TO BE TESTED.
